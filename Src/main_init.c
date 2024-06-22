@@ -299,8 +299,8 @@ static void SystemClock_Config(void)
         .PLL.PLLSource = RCC_PLLSOURCE_HSE,
         .PLL.PLLM = (uint32_t)HSE_VALUE / 1000000UL,
         .PLL.PLLN = 192,
-        .PLL.PLLP = RCC_PLLP_DIV2,
-        .PLL.PLLQ = 4
+        .PLL.PLLP = RCC_PLLP_DIV4,
+        .PLL.PLLQ = 8
     };
 
     #define FLASH_LATENCY FLASH_LATENCY_3
