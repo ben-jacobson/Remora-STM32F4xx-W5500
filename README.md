@@ -24,15 +24,16 @@ Dont know how to use serial monitor.
 # Boards
 - Nucleo : working , connects to linuxcnc needs more testing
 - Blackpill : working , connects to linuxcnc needs more testing
-- BTT Octopus 446 : working , connects to linuxcnc needs more testing 
+
 
 
 
 # TO DO and known issues
 
-- Encoder modules need to be ported. Still a WIP, but I do not know where to point the signals.
+- PWM/Encoder modules need to be ported. Still a WIP, but I do not know where to point the signals.
 - UART console output needs to be added.
 - Add a platformio.ini define for SPI CS pin
+  
 
 ------------------------------------------
 
