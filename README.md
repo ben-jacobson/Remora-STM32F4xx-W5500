@@ -1,9 +1,9 @@
-# Nucleo/blackpill Remora-STM32F4xx-W5500 test branch. 
+#  Remora-STM32F4xx-W5500 test branch (for 3d Printer boards). 
 ------------------------------------------
 
 Stepgen, blink and digital io are the only modules supported at the moment. 
 
-Default config that loads on startup is an led blink module on PC13
+Default config that loads on startup is an led blink module on PA8
 
 Configs are loaded via tftp , refer to the remora documents for this process
 https://remora-docs.readthedocs.io/en/latest/firmware/ethernet-config.html
@@ -15,22 +15,20 @@ Dont know how to use serial monitor.
 # W5500 connection
 
 
- - PA12 SPI CS
- - PB13 SCK
- - PB14  MISO
- - PB15 MOSI
+ - PA4 SPI CS
+ - PA5 SCK
+ - PA6  MISO
+ - PA7 MOSI
 
 
 # Boards
-- Nucleo : working , connects to linuxcnc needs more testing
-- Blackpill : working , connects to linuxcnc needs more testing
-- BTT Octopus 446 : working , connects to linuxcnc needs more testing 
+- BTT Octopus 446/429 : working , connects to linuxcnc needs more testing 
 
 
 
 # TO DO and known issues
 
-- Encoder modules need to be ported. Still a WIP, but I do not know where to point the signals.
+- PWM/Encoder modules need to be ported. Still a WIP, but I do not know where to point the signals.
 - UART console output needs to be added.
 - Add a platformio.ini define for SPI CS pin
 
