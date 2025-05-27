@@ -5,7 +5,7 @@
 	"Thread": "Servo",
 	"Type": "Blink",
 		"Comment":			"Blinky",
-		"Pin":				"PC13",
+		"Pin":				"PC_13",
 		"Frequency": 		4
 	}
 	]

@@ -19,8 +19,8 @@
   along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _GRBL_SPI_H_
-#define _GRBL_SPI_H_
+#ifndef _SPI_H_
+#define _SPI_H_
 
 void spi_init (void);
 void spi_set_max_speed (void);

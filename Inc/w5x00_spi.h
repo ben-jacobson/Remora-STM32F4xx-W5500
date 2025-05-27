@@ -17,6 +17,7 @@
 
 #define SPI_CS_PORT             GPIOB //CS_JOG_SW
 #define SPI_CS_PIN              GPIO_PIN_6
+// unsure if these 2 pins are needed, i havent been using them. -cakeslob
 //#define SPI_IRQ_PORT            GPIOC //PRU_RESET
 //#define SPI_IRQ_PIN             GPIO_PIN_3
 #define SPI_RST_PORT            GPIOB // TXD_INT

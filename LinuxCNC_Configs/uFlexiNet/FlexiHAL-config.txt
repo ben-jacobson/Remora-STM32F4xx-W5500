@@ -5,7 +5,7 @@
 	"Thread": "Servo",
 	"Type": "Blink",
 		"Comment":			"Blinky",
-		"Pin":				"PC04",
+		"Pin":				"PC_4",
 		"Frequency": 		2
 	},
 	{
@@ -13,30 +13,30 @@
 	"Type": "Stepgen",
 		"Comment":			"X - Joint 0 step generator",
 		"Joint Number":		0,
-		"Step Pin": 		"PA03",
-		"Direction Pin": 	"PC02"
+		"Step Pin": 		"PA_3",
+		"Direction Pin": 	"PC_2"
 	},
 	{
 	"Thread": "Base",
 	"Type": "Stepgen",
 		"Comment":			"Y - Joint 1 step generator",
 		"Joint Number":		1,
-		"Step Pin": 		"PC01",
-		"Direction Pin": 	"PC00"
+		"Step Pin": 		"PC_1",
+		"Direction Pin": 	"PC_0"
 	},
 	{
 	"Thread": "Base",
 	"Type": "Stepgen",
 		"Comment":			"Z - Joint 2 step generator",
 		"Joint Number":		2,
-		"Step Pin": 		"PB08",
+		"Step Pin": 		"PB_8",
 		"Direction Pin": 	"PC15"
 	},
 	{
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"X_Limit",
-		"Pin":				"PA05",
+		"Pin":				"PA_5",
 		"Mode":				"Input",
 		"Data Bit":			0,
 		"Invert":			"False"
@@ -45,7 +45,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"Y_Limit",
-		"Pin":				"PB09",
+		"Pin":				"PB_9",
 		"Mode":				"Input",
 		"Data Bit":			1,
 		"Invert":			"True"
@@ -54,7 +54,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"Z_Limit",
-		"Pin":				"PC13",
+		"Pin":				"PC_13",
 		"Mode":				"Input",
 		"Data Bit":			2,
 		"Invert":			"False"
@@ -63,7 +63,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"A_Limit",
-		"Pin":				"PB06",
+		"Pin":				"PB_6",
 		"Mode":				"Input",
 		"Data Bit":			3,
 		"Invert":			"False"
@@ -72,7 +72,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"B_Limit",
-		"Pin":				"PC14",
+		"Pin":				"PC_14",
 		"Mode":				"Input",
 		"Data Bit":			4,
 		"Invert":			"False"
@@ -81,7 +81,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"FEED_HOLD",
-		"Pin":				"PC08",
+		"Pin":				"PC_8",
 		"Mode":				"Input",
 		"Data Bit":			5,
 		"Invert":			"False"
@@ -90,7 +90,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"CYCLE_START",
-		"Pin":				"PC11",
+		"Pin":				"PC_11",
 		"Mode":				"Input",
 		"Data Bit":			6,
 		"Invert":			"False"
@@ -99,7 +99,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"HALT",
-		"Pin":				"PB12",
+		"Pin":				"PB_12",
 		"Mode":				"Input",
 		"Data Bit":			7,
 		"Invert":			"True"
@@ -108,7 +108,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"PROBE",
-		"Pin":				"PB07",
+		"Pin":				"PB_7",
 		"Mode":				"Input",
 		"Data Bit":			8,
 		"Invert":			"False"
@@ -117,7 +117,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"STEP_EN",
-		"Pin":				"PA14",
+		"Pin":				"PA_14",
 		"Mode":				"Output",
 		"Data Bit":			0,
 		"Invert":			"False"
@@ -126,7 +126,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"STEP_EN_Z",
-		"Pin":				"PA13",
+		"Pin":				"PA_13",
 		"Mode":				"Output",
 		"Data Bit":			1,
 		"Invert":			"False"
@@ -135,7 +135,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"COOLANT",
-		"Pin":				"PC09",
+		"Pin":				"PC_9",
 		"Mode":				"Output",
 		"Data Bit":			2,
 		"Invert":			"False"
@@ -144,7 +144,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"MIST",
-		"Pin":				"PA07",
+		"Pin":				"PA_7",
 		"Mode":				"Output",
 		"Data Bit":			3,
 		"Invert":			"False"
@@ -153,7 +153,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"SPINDLE_EN",
-		"Pin":				"PB02",
+		"Pin":				"PB_2",
 		"Mode":				"Output",
 		"Data Bit":			4,
 		"Invert":			"False"
@@ -162,7 +162,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"SPINDLE_DIR",
-		"Pin":				"PB01",
+		"Pin":				"PB_1",
 		"Mode":				"Output",
 		"Data Bit":			5,
 		"Invert":			"False"
@@ -171,7 +171,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"AUXOUT0",
-		"Pin":				"PB13",
+		"Pin":				"PB_13",
 		"Mode":				"Output",
 		"Data Bit":			6,
 		"Invert":			"False"
@@ -180,7 +180,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"AUXOUT1",
-		"Pin":				"PB00",
+		"Pin":				"PB_0",
 		"Mode":				"Output",
 		"Data Bit":			7,
 		"Invert":			"False"
@@ -189,7 +189,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"AUXOUT2",
-		"Pin":				"PA04",
+		"Pin":				"PA_4",
 		"Mode":				"Output",
 		"Data Bit":			8,
 		"Invert":			"False"
@@ -198,7 +198,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"AUXOUT3",
-		"Pin":				"PA06",
+		"Pin":				"PA_6",
 		"Mode":				"Output",
 		"Data Bit":			9,
 		"Invert":			"False"

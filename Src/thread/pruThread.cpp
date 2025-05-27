@@ -7,6 +7,7 @@
 GPIO_TypeDef       GPIO0, GPIO1;
 GPIO_InitTypeDef   GPIO_InitStruct = {0};
 
+// i think these are testing pins leftover -cakeslob
 
 using namespace std;
 

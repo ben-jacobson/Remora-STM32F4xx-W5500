@@ -68,7 +68,7 @@ static inline void wizchip_deselect(void)
 
 void wizchip_reset()
 {
-    
+    // not sure if needed, doesnt seem to effect using spi1 pa5 sck, unsure what to do. -cakeslob
     if(hw.rst.port) {
         HAL_GPIO_WritePin(hw.rst.port, hw.rst.pin, 0);
         HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, 0);

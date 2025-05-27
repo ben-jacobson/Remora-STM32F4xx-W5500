@@ -6,30 +6,30 @@
 	"Type": "Stepgen",
 		"Comment":			"X - Joint 0 step generator",
 		"Joint Number":		0,
-		"Step Pin": 		"PA01",
-		"Direction Pin": 	"PA02"
+		"Step Pin": 		"PA_1",
+		"Direction Pin": 	"PA_2"
 	},
 	{
 	"Thread": "Base",
 	"Type": "Stepgen",
 		"Comment":			"Y - Joint 1 step generator",
 		"Joint Number":		1,
-		"Step Pin": 		"PA03",
-		"Direction Pin": 	"PA04"
+		"Step Pin": 		"PA_3",
+		"Direction Pin": 	"PA_4"
 	},
 	{
 	"Thread": "Base",
 	"Type": "Stepgen",
 		"Comment":			"Z - Joint 2 step generator",
 		"Joint Number":		2,
-		"Step Pin": 		"PA05",
-		"Direction Pin": 	"PA06"
+		"Step Pin": 		"PA_5",
+		"Direction Pin": 	"PA_6"
 	},
 	{
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"X_Limit",
-		"Pin":				"PC14",
+		"Pin":				"PC_14",
 		"Mode":				"Input",
 		"Data Bit":			0,
 		"Invert":			"False"
@@ -38,7 +38,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"Y_Limit",
-		"Pin":				"PC15",
+		"Pin":				"PC_15",
 		"Mode":				"Input",
 		"Data Bit":			1,
 		"Invert":			"True"
@@ -47,7 +47,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"Z_Limit",
-		"Pin":				"PA15",
+		"Pin":				"PA_15",
 		"Mode":				"Input",
 		"Data Bit":			2,
 		"Invert":			"False"
@@ -56,7 +56,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"IN1",
-		"Pin":				"PB03",
+		"Pin":				"PB_3",
 		"Mode":				"Input",
 		"Data Bit":			3,
 		"Invert":			"False"
@@ -65,7 +65,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"IN2",
-		"Pin":				"PB04",
+		"Pin":				"PB_4",
 		"Mode":				"Input",
 		"Data Bit":			4,
 		"Invert":			"False"
@@ -74,7 +74,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"IN3",
-		"Pin":				"PB06",
+		"Pin":				"PB_6",
 		"Mode":				"Input",
 		"Data Bit":			5,
 		"Invert":			"False"
@@ -83,7 +83,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"USR_BTN",
-		"Pin":				"PA00",
+		"Pin":				"PA_0",
 		"Mode":				"Input",
 		"Data Bit":			6,
 		"Invert":			"False"
@@ -92,7 +92,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"STEP_ENA",
-		"Pin":				"PA07",
+		"Pin":				"PA_7",
 		"Mode":				"Output",
 		"Data Bit":			0
 	},	
@@ -100,7 +100,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"OUT1,
-		"Pin":				"PB01",
+		"Pin":				"PB_1",
 		"Mode":				"Output",
 		"Data Bit":			1
 	},
@@ -108,7 +108,7 @@
 	"Thread": "Servo",
 	"Type": "Digital Pin",
 		"Comment":			"OUT2",
-		"Pin":				"PB02",
+		"Pin":				"PB_2",
 		"Mode":				"Output",
 		"Data Bit":			2
 	}

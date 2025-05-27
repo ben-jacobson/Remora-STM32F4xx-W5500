@@ -1,12 +1,12 @@
 # Basic HAL config file for NVEM controller board running Remora firmware
-# Configured for 3 joints (A, Y, Z axes) with home and limit switches
+# Configured for 3 joints (X, Y, Z axes) with home and limit switches
 
 loadrt [KINS]KINEMATICS
 loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS
 
 # load the Remora real-time component
 
-	loadrt remora-nv
+	loadrt remora-eth-3.0
 
 
 # estop and SPI comms enable and feedback

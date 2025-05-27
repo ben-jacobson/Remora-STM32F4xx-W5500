@@ -224,27 +224,7 @@ static void SystemClock_Config(void)
     #define FLASH_LATENCY FLASH_LATENCY_5
 
   #endif
-/*
-#elif defined(STM32F429xx)
 
-
-    __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-
-    RCC_OscInitTypeDef RCC_OscInitStruct = {
-        .OscillatorType = RCC_OSCILLATORTYPE_HSE,
-        .HSEState = RCC_HSE_ON,
-        .PLL.PLLState = RCC_PLL_ON,
-        .PLL.PLLSource = RCC_PLLSOURCE_HSE,
-        .PLL.PLLM = (uint32_t)HSE_VALUE / 1000000UL,
-        .PLL.PLLN = 336,
-        .PLL.PLLP = RCC_PLLP_DIV2,
-        .PLL.PLLQ = 7
-    };
-
-    #define APB1CLKDIV RCC_HCLK_DIV4
-    #define APB2CLKDIV RCC_HCLK_DIV2
-    #define FLASH_LATENCY FLASH_LATENCY_5
-*/
 #elif defined(BOARD_F429_OCTOPUS)
 
     __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
