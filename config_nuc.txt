@@ -1,0 +1,14 @@
+{
+	"Board": "Nucleo with CNC Shield",
+	"Modules":[
+	{
+	"Thread": "Servo",
+	"Type": "Digital Pin",
+		"Comment":			"USER BUTTON",
+		"Pin":				"PC_13",
+        "Modifier":         "Pull Down",
+		"Mode":				"Input",
+		"Data Bit":			0
+	}
+	]
+}
