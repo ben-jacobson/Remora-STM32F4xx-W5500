@@ -30,13 +30,10 @@ static void MX_GPIO_Init (void);
 static void MX_DMA_Init (void);
 static void MX_USART3_UART_Init(void);
 
-<<<<<<< HEAD
-=======
 #ifdef NUCLEO_F446
 UART_HandleTypeDef huart3;
 #endif
 
->>>>>>> d4e220b (Enabled printf output on NucleoF446RE board, works on UART3 as is the only port available on Flexihal design.)
 int main_init(void)
 {
     /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
