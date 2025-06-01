@@ -23,7 +23,6 @@
 */
 
 #include "remora.h"
-#include "usb_serial.h"
 
 static void SystemClock_Config (void);
 static void MX_GPIO_Init (void);
