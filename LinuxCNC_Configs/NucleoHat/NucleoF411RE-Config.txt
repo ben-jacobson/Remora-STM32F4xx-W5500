@@ -125,7 +125,7 @@
             "Thread": "Servo",
             "Type": "Digital Pin",
             "Comment": "Input 8",
-            "Pin": "PC_2",
+            "Pin": "PB_2",
             "Mode": "Input",
             "Data Bit": 8,
             "Invert": "False"
