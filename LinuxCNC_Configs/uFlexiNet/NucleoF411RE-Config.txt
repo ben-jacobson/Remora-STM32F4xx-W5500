@@ -1,0 +1,243 @@
+{
+    "Board": "NUCLEOF411RE Hat",
+    "Modules": [
+        {
+            "Thread": "Base",
+            "Type": "Stepgen",
+            "Comment": "X - Joint 0 step generator",
+            "Joint Number": 0,
+            "Step Pin": "PC_11",
+            "Direction Pin": "PC_12"
+        },
+        {
+            "Thread": "Base",
+            "Type": "Stepgen",
+            "Comment": "Y - Joint 1 step generator",
+            "Joint Number": 1,
+            "Step Pin": "PC_13",
+            "Direction Pin": "PC_14"
+        },
+        {
+            "Thread": "Base",
+            "Type": "Stepgen",
+            "Comment": "Z - Joint 2 step generator",
+            "Joint Number": 2,
+            "Step Pin": "PA_1",
+            "Direction Pin": "PA_4"
+        },
+        {
+            "Thread": "Base",
+            "Type": "Stepgen",
+            "Comment": "A - Joint 3 step generator",
+            "Joint Number": 3,
+            "Step Pin": "PB_13",
+            "Direction Pin": "PB_14"
+        },
+        {
+            "Thread": "Base",
+            "Type": "Stepgen",
+            "Comment": "B - Joint 4 step generator",
+            "Joint Number": 4,
+            "Step Pin": "PC_2",
+            "Direction Pin": "PC_3"
+        },
+        {
+            "Thread": "Base",
+            "Type": "Stepgen",
+            "Comment": "C - Joint 5 step generator",
+            "Joint Number": 5,
+            "Step Pin": "PB_3",
+            "Direction Pin": "PB_4"
+        },  
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 0",
+            "Pin": "PC_9",
+            "Mode": "Input",
+            "Data Bit": 0,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 1",
+            "Pin": "PC_8",
+            "Mode": "Input",
+            "Data Bit": 1,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 2",
+            "Pin": "PC_6",
+            "Mode": "Input",
+            "Data Bit": 2,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 3",
+            "Pin": "PA_12",
+            "Mode": "Input",
+            "Data Bit": 3,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 4",
+            "Pin": "PA_11",
+            "Mode": "Input",
+            "Data Bit": 4,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 5",
+            "Pin": "PB_12",
+            "Mode": "Input",
+            "Data Bit": 5,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 6",
+            "Pin": "PC_7",
+            "Mode": "Input",
+            "Data Bit": 6,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 7",
+            "Pin": "PA_9",
+            "Mode": "Input",
+            "Data Bit": 7,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 8",
+            "Pin": "PC_2",
+            "Mode": "Input",
+            "Data Bit": 8,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 9",
+            "Pin": "PA_8",
+            "Mode": "Input",
+            "Data Bit": 9,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 10",
+            "Pin": "PB_1",
+            "Mode": "Input",
+            "Data Bit": 10,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 11",
+            "Pin": "PB_10",
+            "Mode": "Input",
+            "Data Bit": 11,
+            "Invert": "False"
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 12",
+            "Pin": "PC_15",
+            "Mode": "Input",
+            "Data Bit": 12,
+            "Invert": "False"
+        },      
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Input 13",
+            "Pin": "PD_2",
+            "Mode": "Input",
+            "Data Bit": 13,
+            "Invert": "False"
+        },            
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Output 0",
+            "Pin": "PA_0",
+            "Mode": "Output",
+            "Data Bit": 0
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Output 1",
+            "Pin": "PA_2",
+            "Mode": "Output",
+            "Data Bit": 1
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Output 2",
+            "Pin": "PA_3",
+            "Mode": "Output",
+            "Data Bit": 2
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Output 3",
+            "Pin": "PA_10",
+            "Mode": "Output",
+            "Data Bit": 3
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Output 4",
+            "Pin": "PA_15",
+            "Mode": "Output",
+            "Data Bit": 4
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Output 5",
+            "Pin": "PB_0",
+            "Mode": "Output",
+            "Data Bit": 5
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Output 6",
+            "Pin": "PB_15",
+            "Mode": "Output",
+            "Data Bit": 6
+        },
+        {
+            "Thread": "Servo",
+            "Type": "Digital Pin",
+            "Comment": "Output 7",
+            "Pin": "PC_4",
+            "Mode": "Output",
+            "Data Bit": 7
+        }
+    ]
+}
