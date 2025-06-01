@@ -16,6 +16,7 @@ extern "C" {
 #include "port_common.h"
 #include "wizchip_conf.h"
 #include "w5x00_spi.h"
+#include "timer.h"
 #include "spi.h"
 }
 
@@ -62,10 +63,10 @@ void wizchip_reset()
     // not sure if needed, doesnt seem to effect using spi1 pa5 sck, unsure what to do. -cakeslob
     wiz_cs_pin->set(GPIO_PIN_RESET);
     wiz_rst_pin->set(GPIO_PIN_RESET);
-    HAL_Delay(250);                 // Todo - abstract away any HAL_Delays. May need a little driver unit for timing
+    wizchip_delay_ms(250);                 // Todo - abstract away any HAL_Delays. May need a little driver unit for timing
     wiz_cs_pin->set(GPIO_PIN_SET);
     wiz_rst_pin->set(GPIO_PIN_SET);
-    HAL_Delay(250);
+    wizchip_delay_ms(250);
 }
 
 
