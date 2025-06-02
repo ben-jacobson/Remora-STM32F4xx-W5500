@@ -72,7 +72,6 @@ loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EM
 
 # stepgen enable and other outputs
 
-	net j0enable => remora.output.00 	
-
-	net OUT1 	remora.output.01 	#=> 
-	net OUT2 	remora.output.02 	#=> 
+	#net j0enable => remora.output.00 	
+	#net OUT1 	remora.output.01 	#=> 
+	#net OUT2 	remora.output.02 	#=> 
