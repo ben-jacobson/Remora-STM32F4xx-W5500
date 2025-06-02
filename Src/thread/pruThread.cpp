@@ -4,10 +4,6 @@
 #include "../modules/module.h"
 
 #include "stm32f4xx_hal.h"
-GPIO_TypeDef       GPIO0, GPIO1;
-GPIO_InitTypeDef   GPIO_InitStruct = {0};
-
-// i think these are testing pins leftover -cakeslob
 
 using namespace std;
 
@@ -18,30 +14,6 @@ pruThread::pruThread(uint8_t slice, uint32_t frequency) :
 {
 	printf("Creating thread %d\n", this->frequency);
 	
-	if (this->slice == 0){
-		__HAL_RCC_GPIOB_CLK_ENABLE();
-		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_10, GPIO_PIN_RESET);
-
-		// Configure the GPIO pin
-		GPIO_InitStruct.Pin = GPIO_PIN_10;
-		GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
-		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-		HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);  
-	}
-
-	if (this->slice == 1){
-		__HAL_RCC_GPIOC_CLK_ENABLE();
-		HAL_GPIO_WritePin(GPIOC,GPIO_PIN_6, GPIO_PIN_RESET);
-
-		// Configure the GPIO pin
-		GPIO_InitStruct.Pin = GPIO_PIN_6;
-		GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
-		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-		HAL_GPIO_Init(GPIOC, &GPIO_InitStruct); 
-	}	
-
 	this->semaphore = false;
 	this->execute = false;
 }
@@ -78,14 +50,6 @@ void pruThread::run(void)
 	
 	while (this->semaphore == true);	
 	this->semaphore = true;	
-	
-	if (this->slice == 0){
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_SET);
-	}
-
-	if (this->slice == 1){
-		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_SET);
-	}
 
 	// iterate over the Thread pointer vector to run all instances of Module::runModule()
 	for (iter = vThread.begin(); iter != vThread.end(); ++iter) (*iter)->runModule();
@@ -101,14 +65,6 @@ void pruThread::run(void)
 	if (hasThreadPost)
 	{
 		for (iter = vThreadPost.begin(); iter != vThreadPost.end(); ++iter) (*iter)->runModulePost();
-	}
-	
-	if (this->slice == 0){
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_10, GPIO_PIN_RESET);
-	} 
-
-	if (this->slice == 1){
-		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_RESET);
 	}
 
 	this->execute = false;

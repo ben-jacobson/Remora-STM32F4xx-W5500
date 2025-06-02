@@ -72,7 +72,7 @@ extern "C"
 #include "modules/stepgen/stepgen.h"
 #include "modules/digitalPin/digitalPin.h"
 #include "modules/pwm/spindlePwm.h"
-#include "modules/rs485/rs485.h"
+//#include "modules/rs485/rs485.h"
 
 
 /***********************************************************************
@@ -108,13 +108,13 @@ pruThread* baseThread;
 RemoraComms* comms;
 Module* MPG;
 
-#ifdef SOCAT_RS485
+/*#ifdef SOCAT_RS485
 Module* Modbus;
 struct udp_pcb *upcb_rs485;
 rs485Data_t rs485Data;
 rs485Data_t* ptrRs485Data = &rs485Data;
 void udp_rs485_data_send(void);
-#endif
+#endif*/
 
 RxPingPongBuffer rxPingPongBuffer;
 TxPingPongBuffer txPingPongBuffer;
@@ -152,7 +152,7 @@ void EthernetInit();
 void udpServerInit();
 void EthernetTasks();
 void udp_data_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port);
-void udp_rs485_data_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port);
+//void udp_rs485_data_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port);
 
 
 /* Network */
@@ -434,10 +434,10 @@ void loadModules()
 			{
 				createSpindlePWM();
 			}
-        	else if (!strcmp(type,"Socat RS485"))
+        	/*else if (!strcmp(type,"Socat RS485"))
 			{
 				createRS485();
-			}            
+			} */           
         }
     }
 
@@ -760,7 +760,7 @@ void EthernetTasks()
         sys_check_timeouts();        
     }
 
-    udp_rs485_data_send();
+    //udp_rs485_data_send();
 }
 
 void udpServerInit(void)
@@ -782,13 +782,13 @@ void udpServerInit(void)
 	   udp_remove(upcb);
    }
 
-#ifdef SOCAT_RS485
+/*#ifdef SOCAT_RS485
    // UDP control for RS485 data
 
    upcb_rs485 = udp_new();
    err = udp_bind(upcb_rs485, &g_ip, RS485_UDP_PORT);  // 27183 is the rs485 UDP port
-
-   /* 3. Set a receive callback for the upcb */
+*/
+   /* 3. Set a receive callback for the upcb *//*
    if(err == ERR_OK)
    {
 	   udp_recv(upcb_rs485, udp_rs485_data_callback, NULL);
@@ -797,7 +797,7 @@ void udpServerInit(void)
    {
 	   udp_remove(upcb_rs485);
    }
-#endif
+#endif*/
 
 }
 
@@ -875,7 +875,7 @@ void udp_data_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip
 	pbuf_free(p);
 }
 
-#ifdef SOCAT_RS485
+/*#ifdef SOCAT_RS485
 void udp_rs485_data_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, const ip_addr_t *addr, u16_t port)
 {
 
@@ -919,7 +919,7 @@ void udp_rs485_data_send()
         pbuf_free(txBuf);
     }
 }
-#endif
+#endif*/
 
 #ifdef USB_DEBUG
 extern "C" {

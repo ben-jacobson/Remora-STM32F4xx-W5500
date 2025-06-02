@@ -55,6 +55,7 @@
             "Comment": "Input 0",
             "Pin": "PC_9",
             "Mode": "Input",
+            "Modifier": "Pull Up",
             "Data Bit": 0,
             "Invert": "False"
         },
@@ -64,6 +65,7 @@
             "Comment": "Input 1",
             "Pin": "PC_8",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 1,
             "Invert": "False"
         },
@@ -73,6 +75,7 @@
             "Comment": "Input 2",
             "Pin": "PC_6",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 2,
             "Invert": "False"
         },
@@ -82,6 +85,7 @@
             "Comment": "Input 3",
             "Pin": "PA_12",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 3,
             "Invert": "False"
         },
@@ -91,6 +95,7 @@
             "Comment": "Input 4",
             "Pin": "PA_11",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 4,
             "Invert": "False"
         },
@@ -100,6 +105,7 @@
             "Comment": "Input 5",
             "Pin": "PB_12",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 5,
             "Invert": "False"
         },
@@ -109,6 +115,7 @@
             "Comment": "Input 6",
             "Pin": "PC_7",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 6,
             "Invert": "False"
         },
@@ -118,6 +125,7 @@
             "Comment": "Input 7",
             "Pin": "PA_9",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 7,
             "Invert": "False"
         },
@@ -127,6 +135,7 @@
             "Comment": "Input 8",
             "Pin": "PB_2",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 8,
             "Invert": "False"
         },
@@ -136,6 +145,7 @@
             "Comment": "Input 9",
             "Pin": "PA_8",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 9,
             "Invert": "False"
         },
@@ -145,6 +155,7 @@
             "Comment": "Input 10",
             "Pin": "PB_1",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 10,
             "Invert": "False"
         },
@@ -154,6 +165,7 @@
             "Comment": "Input 11",
             "Pin": "PB_10",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 11,
             "Invert": "False"
         },
@@ -163,6 +175,7 @@
             "Comment": "Input 12",
             "Pin": "PC_15",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 12,
             "Invert": "False"
         },      
@@ -172,6 +185,7 @@
             "Comment": "Input 13",
             "Pin": "PD_2",
             "Mode": "Input",
+            "Modifier": "Pull Up",            
             "Data Bit": 13,
             "Invert": "False"
         },            
@@ -180,7 +194,7 @@
             "Type": "Digital Pin",
             "Comment": "Output 0",
             "Pin": "PA_0",
-            "Mode": "Output",
+            "Mode": "Output",          
             "Data Bit": 0
         },
         {
@@ -188,7 +202,7 @@
             "Type": "Digital Pin",
             "Comment": "Output 1",
             "Pin": "PA_2",
-            "Mode": "Output",
+            "Mode": "Output",        
             "Data Bit": 1
         },
         {
@@ -196,7 +210,7 @@
             "Type": "Digital Pin",
             "Comment": "Output 2",
             "Pin": "PA_3",
-            "Mode": "Output",
+            "Mode": "Output",         
             "Data Bit": 2
         },
         {
@@ -204,7 +218,7 @@
             "Type": "Digital Pin",
             "Comment": "Output 3",
             "Pin": "PA_10",
-            "Mode": "Output",
+            "Mode": "Output",            
             "Data Bit": 3
         },
         {
@@ -212,7 +226,7 @@
             "Type": "Digital Pin",
             "Comment": "Output 4",
             "Pin": "PA_15",
-            "Mode": "Output",
+            "Mode": "Output",        
             "Data Bit": 4
         },
         {
@@ -220,7 +234,7 @@
             "Type": "Digital Pin",
             "Comment": "Output 5",
             "Pin": "PB_0",
-            "Mode": "Output",
+            "Mode": "Output",          
             "Data Bit": 5
         },
         {
@@ -228,7 +242,7 @@
             "Type": "Digital Pin",
             "Comment": "Output 6",
             "Pin": "PB_15",
-            "Mode": "Output",
+            "Mode": "Output",        
             "Data Bit": 6
         },
         {
@@ -236,7 +250,7 @@
             "Type": "Digital Pin",
             "Comment": "Output 7",
             "Pin": "PC_4",
-            "Mode": "Output",
+            "Mode": "Output",         
             "Data Bit": 7
         }
     ]

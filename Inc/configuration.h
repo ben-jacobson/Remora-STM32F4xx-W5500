@@ -28,6 +28,7 @@
 // Data buffer configuration
 #define BUFFER_SIZE 		64            	// Size of recieve buffer - same as HAL component, 64
 
+/*
 #define usart(t) usartN(t)
 #define usartN(t) USART ## t
 #define usartINT(t) usartint(t)
@@ -50,6 +51,7 @@
 #define UART2_AF GPIO_AF7_USART1
 
 #define RS485_UDP_PORT 27183
+*/
 
 #define PLL_SYS_KHZ (125 * 1000)    // 133MHz
 #define SOCKET_MACRAW 0

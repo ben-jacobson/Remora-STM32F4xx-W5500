@@ -60,16 +60,16 @@ SpindlePWM::SpindlePWM(int setpoint)
 
 	HAL_TIM_PWM_ConfigChannel(&this->htim, &sConfigOC, TIM_CHANNEL_1);
 
-	__HAL_RCC_GPIOB_CLK_ENABLE();
+	//__HAL_RCC_GPIOB_CLK_ENABLE(); // disabling until we can port this to follow the config file.
 	/**TIM1 GPIO Configuration
 	PB0     ------> TIM1_CH2N
 	*/
-	GPIO_InitStruct.Pin = GPIO_PIN_0;
+	/*GPIO_InitStruct.Pin = GPIO_PIN_0;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
-	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);  */
 
 	HAL_TIM_PWM_Start(&this->htim, TIM_CHANNEL_1);
 	TIM1->CCR1 = 0;
