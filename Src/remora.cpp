@@ -71,7 +71,7 @@ extern "C"
 #include "modules/debug/debug.h"
 #include "modules/stepgen/stepgen.h"
 #include "modules/digitalPin/digitalPin.h"
-#include "modules/pwm/spindlePwm.h"
+#include "modules/pwm/pwm.h"
 //#include "modules/rs485/rs485.h"
 
 
@@ -430,9 +430,9 @@ void loadModules()
 			{
 				createDigitalPin();
 			}
-        	else if (!strcmp(type,"Spindle PWM"))
+        	else if (!strcmp(type,"PWM"))
 			{
-				createSpindlePWM();
+				createPWM();
 			}
         	/*else if (!strcmp(type,"Socat RS485"))
 			{

@@ -13,6 +13,10 @@ extern volatile mpgData_t* ptrMpgData;
 extern Module* MPG;
 extern Module* Modbus;
 
+// needed for PWM module
+extern volatile rxData_t rxData;
+extern volatile float*     ptrSetPoint[VARIABLES];
+
 extern uint32_t base_freq;
 extern uint32_t servo_freq;
 
