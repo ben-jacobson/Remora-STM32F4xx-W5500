@@ -41,6 +41,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 SPI_HandleTypeDef hspi1;
+
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
@@ -232,75 +233,18 @@ static void MX_GPIO_Init(void)
   /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
-  __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, Y_STEP_Pin|Y_DIR_Pin|B_STEP_Pin|B_DIR_Pin
-                          |Output_7_Pin|X_STEP_Pin|X_DIR_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, WIZ_RST_Pin|WIZ_CS_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, Output_0_Pin|Z_STEP_Pin|Z_DIR_Pin|Output_3_Pin
-                          |Output_4_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, Output_5_Pin|A_STEP_Pin|A_DIR_Pin|Output_6_Pin
-                          |C_STEP_Pin|C_DIR_Pin|WIZ_RST_Pin|WIZ_CS_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pins : Y_STEP_Pin Y_DIR_Pin B_STEP_Pin B_DIR_Pin
-                           Output_7_Pin X_STEP_Pin X_DIR_Pin */
-  GPIO_InitStruct.Pin = Y_STEP_Pin|Y_DIR_Pin|B_STEP_Pin|B_DIR_Pin
-                          |Output_7_Pin|X_STEP_Pin|X_DIR_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : Input_12_Pin Input_2_Pin Input_6_Pin Input_1_Pin
-                           Input_0_Pin */
-  GPIO_InitStruct.Pin = Input_12_Pin|Input_2_Pin|Input_6_Pin|Input_1_Pin
-                          |Input_0_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : Output_0_Pin Z_STEP_Pin Z_DIR_Pin Output_3_Pin
-                           Output_4_Pin */
-  GPIO_InitStruct.Pin = Output_0_Pin|Z_STEP_Pin|Z_DIR_Pin|Output_3_Pin
-                          |Output_4_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : Output_5_Pin A_STEP_Pin A_DIR_Pin Output_6_Pin
-                           C_STEP_Pin C_DIR_Pin WIZ_RST_Pin WIZ_CS_Pin */
-  GPIO_InitStruct.Pin = Output_5_Pin|A_STEP_Pin|A_DIR_Pin|Output_6_Pin
-                          |C_STEP_Pin|C_DIR_Pin|WIZ_RST_Pin|WIZ_CS_Pin;
+  /*Configure GPIO pins : WIZ_RST_Pin WIZ_CS_Pin */
+  GPIO_InitStruct.Pin = WIZ_RST_Pin|WIZ_CS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : Input_10_Pin Input_8_Pin Input_11_Pin Input_5_Pin */
-  GPIO_InitStruct.Pin = Input_10_Pin|Input_8_Pin|Input_11_Pin|Input_5_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : Input_9_Pin Input_7_Pin Input_4_Pin Input_3_Pin */
-  GPIO_InitStruct.Pin = Input_9_Pin|Input_7_Pin|Input_4_Pin|Input_3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : Input_13_Pin */
-  GPIO_InitStruct.Pin = Input_13_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(Input_13_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 
