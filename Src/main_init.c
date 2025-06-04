@@ -27,10 +27,10 @@
 static void SystemClock_Config (void);
 static void MX_GPIO_Init (void);
 static void MX_DMA_Init (void);
-static void MX_USART3_UART_Init(void);
+static void MX_USART2_UART_Init(void);
 
 #ifdef NUCLEO_F446
-UART_HandleTypeDef huart3;
+UART_HandleTypeDef huart2;
 #endif
 
 int main_init(void)
@@ -56,7 +56,7 @@ int main_init(void)
     MX_DMA_Init();
 
     #ifdef NUCLEO_F446
-        MX_USART3_UART_Init();  // If using the same pinout as the Flexihal, the Nucleo only has one workable UART port for debug info. Other boards may have more options. 
+        MX_USART2_UART_Init();  // If using the same pinout as the Flexihal, the Nucleo only has one workable UART port for debug info. Other boards may have more options. 
     #endif
 
     uint32_t latency;
@@ -458,17 +458,17 @@ static void MX_GPIO_Init(void)
 #endif
 }
 
-static void MX_USART3_UART_Init(void)
+static void MX_USART2_UART_Init(void)
 {
-    huart3.Instance = USART3;
-    huart3.Init.BaudRate = 115200;
-    huart3.Init.WordLength = UART_WORDLENGTH_8B;
-    huart3.Init.StopBits = UART_STOPBITS_1;
-    huart3.Init.Parity = UART_PARITY_NONE;
-    huart3.Init.Mode = UART_MODE_TX_RX;
-    huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-    huart3.Init.OverSampling = UART_OVERSAMPLING_16;
-    if (HAL_UART_Init(&huart3) != HAL_OK)
+    huart2.Instance = USART2;
+    huart2.Init.BaudRate = 115200;
+    huart2.Init.WordLength = UART_WORDLENGTH_8B;
+    huart2.Init.StopBits = UART_STOPBITS_1;
+    huart2.Init.Parity = UART_PARITY_NONE;
+    huart2.Init.Mode = UART_MODE_TX_RX;
+    huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+    if (HAL_UART_Init(&huart2) != HAL_OK)
     {
       Error_Handler();
     }

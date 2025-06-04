@@ -71,10 +71,6 @@ void Error_Handler(void);
 #define Output_0_GPIO_Port GPIOA
 #define Z_STEP_Pin GPIO_PIN_1
 #define Z_STEP_GPIO_Port GPIOA
-#define Output_1_Pin GPIO_PIN_2
-#define Output_1_GPIO_Port GPIOA
-#define Output_2_Pin GPIO_PIN_3
-#define Output_2_GPIO_Port GPIOA
 #define Z_DIR_Pin GPIO_PIN_4
 #define Z_DIR_GPIO_Port GPIOA
 #define Output_7_Pin GPIO_PIN_4
