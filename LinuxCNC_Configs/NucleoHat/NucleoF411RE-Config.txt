@@ -201,7 +201,7 @@
             "Thread": "Servo",
             "Type": "Digital Pin",
             "Comment": "Output 1",
-            "Pin": "PA_2",
+            "Pin": "PA_10",
             "Mode": "Output",        
             "Data Bit": 1
         },
@@ -209,7 +209,7 @@
             "Thread": "Servo",
             "Type": "Digital Pin",
             "Comment": "Output 2",
-            "Pin": "PA_3",
+            "Pin": "PA_15",
             "Mode": "Output",         
             "Data Bit": 2
         },
@@ -217,7 +217,7 @@
             "Thread": "Servo",
             "Type": "Digital Pin",
             "Comment": "Output 3",
-            "Pin": "PA_10",
+            "Pin": "PB_0",
             "Mode": "Output",            
             "Data Bit": 3
         },
@@ -225,7 +225,7 @@
             "Thread": "Servo",
             "Type": "Digital Pin",
             "Comment": "Output 4",
-            "Pin": "PA_15",
+            "Pin": "PB_13",
             "Mode": "Output",        
             "Data Bit": 4
         },
@@ -233,7 +233,7 @@
             "Thread": "Servo",
             "Type": "Digital Pin",
             "Comment": "Output 5",
-            "Pin": "PB_0",
+            "Pin": "PB_14",
             "Mode": "Output",          
             "Data Bit": 5
         },
@@ -241,7 +241,7 @@
             "Thread": "Servo",
             "Type": "Digital Pin",
             "Comment": "Output 6",
-            "Pin": "PB_13",
+            "Pin": "PB_15",
             "Mode": "Output",        
             "Data Bit": 6
         },
