@@ -1,45 +1,40 @@
 #include "pwm.h"
-#include "drivers/HardwarePWM/HardwarePwm.h"
 
 #define PID_PWM_MAX 256		// 8 bit resolution
+
 
 /***********************************************************************
                 MODULE CONFIGURATION AND CREATION FROM JSON     
 ************************************************************************/
 
-void createPWM()
+void createPWM(void)
 {
     const char* comment = module["Comment"];
     printf("\n%s\n",comment);
 
     int sp = module["SP[i]"];
-    int pwmMax = module["PWM Max"];
+    //int pwmMax = module["PWM Max"];
     const char* pin = module["PWM Pin"];
-
     const char* hardware = module["Hardware PWM"];
-    const char* variable = module["Variable Freq"];
+    //const char* variable = module["Variable Freq"]; // by default all PWMs are variable.
     int period_sp = module["Period SP[i]"];
     int period = module["Period us"];
 
     printf("Creating PWM at pin %s\n", pin);
     
-    ptrSetPoint[sp] = &rxData.setPoint[sp];
+    // Create a pointer for set point
+    //rxData_t* currentRxPacket = getCurrentRxBuffer(&rxPingPongBuffer);
+    volatile float*     ptrSetPoint[VARIABLES];
+    //ptrSetPoint[sp] = &currentRxPacket->setPoint[sp];
+    ptrSetPoint[sp] = &rxPingPongBuffer.rxBuffers->setPoint[sp];
 
-    if (!strcmp(hardware,"True"))
+    if (!strcmp(hardware,"True")) // Hardware PWM
     {
-        // Hardware PWM
-        if (!strcmp(variable,"True"))
-        {
-            // Variable frequency hardware PWM
-            ptrSetPoint[period_sp] = &rxData.setPoint[period_sp];
-
-            HardwarePWM* pwm = new HardwarePWM(*ptrSetPoint[period_sp], *ptrSetPoint[sp], period, pin);
-        }
-        else
-        {
-            // Fixed frequency hardware PWM
-            HardwarePWM* pwm = new HardwarePWM(*ptrSetPoint[sp], period, pin);
-        }
+        // We don't implement fixed duty PWM, simpler to initialise a variable one and don't change it.  
+        //ptrSetPoint[period_sp] = &currentRxPacket->setPoint[period_sp]; //doesn't seem to be allocated correctly, the index of ptrSetPoint should only go to 4? This might go to 20?!
+        ptrSetPoint[period_sp] = &rxPingPongBuffer.rxBuffers->setPoint[period_sp];   
+        Module* new_pwm = new PWM(*ptrSetPoint[period_sp], *ptrSetPoint[sp], pin);
+        servoThread->registerModule(new_pwm);
     }
     else
     {
@@ -52,34 +47,48 @@ void createPWM()
                 METHOD DEFINITIONS
 ************************************************************************/
 
-PWM::PWM(volatile float &ptrSP, std::string portAndPin) :
-	ptrSP(&ptrSP),
-	portAndPin(portAndPin)
+PWM::PWM(volatile float &ptrPwmPeriod, volatile float &ptrPwmPulseWidth, std::string pin) :
+    ptrPwmPeriod(&ptrPwmPeriod),
+    ptrPwmPulseWidth(&ptrPwmPulseWidth),
+    pin(pin)
 {
-    // nothing to do pointers are set, variables are handled by member initialiser
+    printf("Creating variable frequency Hardware PWM at pin %s\n", this->pin);
+
+    if (pwmPeriod == 0)
+    {
+        this->pwmPeriod = DEFAULT_PWM_PERIOD;
+    }
+
+    // set initial period and pulse width
+    this->pwmPeriod = *(this->ptrPwmPeriod);
+    this->pwmPulseWidth = *(this->ptrPwmPulseWidth);
+    this->pwmPulseWidth_us = (this->pwmPeriod * this->pwmPulseWidth) / 100.0;
+    hardware_PWM = new HardwarePWM(this->pwmPeriod, this->pwmPulseWidth_us, this->pin); 
 }
+
 
 void PWM::update()
 {
-	float SP;
+    if (*(this->ptrPwmPeriod) != 0 && (*(this->ptrPwmPeriod) != this->pwmPeriod))
+    {
+        // PWM period has changed
+        this->pwmPeriod = *(this->ptrPwmPeriod);
+        //this->pwmPulseWidth_us = (this->pwmPeriod * this->pwmPulseWidth) / 100.0; // safer to force an update below.
+        this->hardware_PWM->change_period(this->pwmPeriod);
 
-	// update the speed SP
-	this->SP = *(this->ptrSP);
+        // force pulse width update
+        this->pwmPulseWidth = 0;
+    }
 
-    // ensure SP is within range. LinuxCNC PID can have -ve command value
-	if (this->SP > 100) this->SP = 100;
-    if (this->SP < 0) this->SP = 0;
-
-	// the SP is as a percentage (%)
-	// scale the pwm output range (0 - pwmMax) = (0 - 100%)
-    // and reset the set point
-
-	SP = this->pwmMax * (this->SP / 100.0);
-
-	this->pwm->setPwmSP(int(SP));
-
-	this->pwm->update();
+    if (*(this->ptrPwmPulseWidth) != this->pwmPulseWidth)
+    {
+        // PWM duty has changed
+        this->pwmPulseWidth = *(this->ptrPwmPulseWidth);
+        this->pwmPulseWidth_us = (this->pwmPeriod * this->pwmPulseWidth) / 100.0;
+        this->hardware_PWM->change_pulsewidth(this->pwmPulseWidth_us);
+    } 
 }
+
 
 void PWM::slowUpdate()
 {

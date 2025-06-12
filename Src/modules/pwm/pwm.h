@@ -1,34 +1,39 @@
 #ifndef PWM_H
 #define PWM_H
 
-#include <cstdint>
 #include <string>
-
-#include "modules/module.h"
-#include "drivers/HardwarePwm/HardwarePwm.h"
+#include <iostream>
 
 #include "extern.h"
+#include "modules/module.h"
+#include "drivers/pin/pin.h"
+#include "drivers/HardwarePwm/HardwarePwm.h"
+
+#define DEFAULT_PWM_PERIOD 200
 
 void createPWM(void);
 
 class PWM : public Module
 {
-
 	private:
 
-		volatile float* ptrSP; 			// pointer to the data source
-		int 			SP;             // speed %
-		std::string 	portAndPin;
-		int 			pwmMax;
+		std::string pin;			        // PWM output pin
+		int pwmMax;					        // maximum PWM output
+		int pwmSP;					        // PWM setpoint as a percentage of maxPwm
 
-		HardwarePWM* 		pwm;			// pointer to PWM object - output
+		HardwarePWM *hardware_PWM;
 
+        volatile float *ptrPwmPeriod; 	    // pointer to the data source
+        volatile float *ptrPwmPulseWidth; 	// pointer to the data source
+
+        int pwmPeriod;                      // Period (us)
+        float pwmPulseWidth;                // Pulse width (%)
+        int pwmPulseWidth_us;               // Pulse width (us)
 
 	public:
-
-		PWM(volatile float&, std::string);
-		virtual void update(void);
-		virtual void slowUpdate(void);
+		PWM(volatile float&, volatile float&, std::string);
+		virtual void update(void);          // Module default interface
+		virtual void slowUpdate(void);      // Module default interface
 };
 
 #endif
