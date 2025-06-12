@@ -45,7 +45,7 @@ HardwarePWM::HardwarePWM(int initial_period_us, int initial_pulsewidth_us, std::
 
 void HardwarePWM::initialise_timers(void) 
 {
-    this->pwm_tim_handler.Instance = TIMER_N;
+    this->pwm_tim_handler.Instance = TIM1;
     this->pwm_tim_handler.Init.Prescaler = 0;
     this->pwm_tim_handler.Init.CounterMode = TIM_COUNTERMODE_UP;
     this->pwm_tim_handler.Init.Period = 65535;  // sets up with a default value for time being, will manaually set later

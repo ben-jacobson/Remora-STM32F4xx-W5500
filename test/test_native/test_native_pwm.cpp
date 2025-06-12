@@ -1,4 +1,5 @@
 #include <unity.h>
+#include "test_native_pwm.h"
 #include "modules/pwm/pwm.h"
 
 void setUp(void) {
@@ -9,13 +10,12 @@ void tearDown(void) {
   // clean stuff up here
 }
 
-void test_find_compatible_pwm_pin(void) {
-  //find_compatible_pwm_pin()
+void test_equality(void) {
   TEST_ASSERT_EQUAL(4, 2 + 2);
 }
 
 int main() {
     UNITY_BEGIN();
-    RUN_TEST(test_find_compatible_pwm_pin);
+    RUN_TEST(test_equality);
     return UNITY_END();
 }

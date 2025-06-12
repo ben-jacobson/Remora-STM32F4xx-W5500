@@ -3,11 +3,12 @@
 
 #include <string>
 #include <iostream>
-
-#include "extern.h"
 #include "modules/module.h"
-#include "drivers/pin/pin.h"
-#include "drivers/HardwarePwm/HardwarePwm.h"
+
+#ifndef NATIVE_UNITTEST
+	#include "extern.h"
+	#include "drivers/HardwarePwm/HardwarePwm.h"
+#endif
 
 #define DEFAULT_PWM_PERIOD 200
 
