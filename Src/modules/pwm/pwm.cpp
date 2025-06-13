@@ -18,7 +18,7 @@ void createPWM(void)
     const char* hardware = module["Hardware PWM"];
     //const char* variable = module["Variable Freq"]; // by default all PWMs are variable.
     int period_sp = module["Period SP[i]"];
-    int period = module["Period us"];
+    //int period = module["Period us"];
 
     printf("Creating PWM at pin %s\n", pin);
     
@@ -53,7 +53,7 @@ PWM::PWM(volatile float &ptrPwmPeriod, volatile float &ptrPwmPulseWidth, std::st
     ptrPwmPulseWidth(&ptrPwmPulseWidth),
     pin(pin)
 {
-    printf("Creating variable frequency Hardware PWM at pin %s\n", this->pin);
+    printf("Creating variable frequency Hardware PWM at pin %s\n", this->pin.c_str());
 
     if (pwmPeriod_us == 0)
     {
