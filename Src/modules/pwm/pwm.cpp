@@ -6,6 +6,7 @@
                 MODULE CONFIGURATION AND CREATION FROM JSON     
 ************************************************************************/
 
+#ifndef NATIVE_UNITTEST
 void createPWM(void)
 {
     const char* comment = module["Comment"];
@@ -40,6 +41,7 @@ void createPWM(void)
         printf("Software PWM not yet supported\n");
     }
 }
+#endif
 
 
 /***********************************************************************
@@ -53,29 +55,29 @@ PWM::PWM(volatile float &ptrPwmPeriod, volatile float &ptrPwmPulseWidth, std::st
 {
     printf("Creating variable frequency Hardware PWM at pin %s\n", this->pin);
 
-    if (pwmPeriod == 0)
+    if (pwmPeriod_us == 0)
     {
-        this->pwmPeriod = DEFAULT_PWM_PERIOD;
+        this->pwmPeriod_us = DEFAULT_PWM_PERIOD;
     }
 
     // set initial period and pulse width
-    this->pwmPeriod = *(this->ptrPwmPeriod);
+    this->pwmPeriod_us = *(this->ptrPwmPeriod);
     this->pwmPulseWidth = *(this->ptrPwmPulseWidth);
-    this->pwmPulseWidth_us = (this->pwmPeriod * this->pwmPulseWidth) / 100.0;
-    hardware_PWM = new HardwarePWM(this->pwmPeriod, this->pwmPulseWidth_us, this->pin); 
+    this->pwmPulseWidth_us = (this->pwmPeriod_us * this->pwmPulseWidth) / 100.0;
+    hardware_PWM = new HardwarePWM(this->pwmPeriod_us, this->pwmPulseWidth_us, this->pin); 
 }
 
 
 void PWM::update()
 {
-    if (*(this->ptrPwmPeriod) != 0 && (*(this->ptrPwmPeriod) != this->pwmPeriod))
+    if (*(this->ptrPwmPeriod) != 0 && (*(this->ptrPwmPeriod) != this->pwmPeriod_us))
     {
         // PWM period has changed
-        this->pwmPeriod = *(this->ptrPwmPeriod);
+        this->pwmPeriod_us = *(this->ptrPwmPeriod);
         //this->pwmPulseWidth_us = (this->pwmPeriod * this->pwmPulseWidth) / 100.0; // safer to force an update below.
-        this->hardware_PWM->change_period(this->pwmPeriod);
+        this->hardware_PWM->change_period(this->pwmPeriod_us);
 
-        // force pulse width update
+        // force pulse width update by triggering the next if block.
         this->pwmPulseWidth = 0;
     }
 
@@ -83,11 +85,14 @@ void PWM::update()
     {
         // PWM duty has changed
         this->pwmPulseWidth = *(this->ptrPwmPulseWidth);
-        this->pwmPulseWidth_us = (this->pwmPeriod * this->pwmPulseWidth) / 100.0;
+        this->pwmPulseWidth_us = (this->pwmPeriod_us * this->pwmPulseWidth) / 100.0;
         this->hardware_PWM->change_pulsewidth(this->pwmPulseWidth_us);
     } 
 }
 
+float PWM::getPwmPeriod(void) { return pwmPeriod_us; }
+float PWM::getPwmPulseWidth(void) { return pwmPulseWidth; }
+int PWM::getPwmPulseWidth_us(void) { return pwmPulseWidth_us; }
 
 void PWM::slowUpdate()
 {
