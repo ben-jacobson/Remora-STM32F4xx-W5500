@@ -16,34 +16,16 @@ struct PWM_Enabled_Pin {
     TIM_TypeDef* timer;
 };
 
-#ifdef NUCLEO_F446
-const PWM_Enabled_Pin pwm_enabled_pins[] = {
-    { "PA_8",  GPIOA, GPIO_PIN_8,  TIM1 },  // CH1
-    { "PA_9",  GPIOA, GPIO_PIN_9,  TIM1 },  // CH2
-    { "PA_10", GPIOA, GPIO_PIN_10, TIM1 },  // CH3
-    { "PA_11", GPIOA, GPIO_PIN_11, TIM1 },  // CH4
-    { "PA_0",  GPIOA, GPIO_PIN_0,  TIM2 },  // CH1
-    { "PA_1",  GPIOA, GPIO_PIN_1,  TIM2 },  // CH2
-    { "PB_10", GPIOB, GPIO_PIN_10, TIM2 },  // CH3
-    { "PB_2",  GPIOB, GPIO_PIN_2,  TIM2 },  // CH4
-    { "PC_6",  GPIOC, GPIO_PIN_6,  TIM3 },  // CH1
-    { "PC_7",  GPIOC, GPIO_PIN_7,  TIM3 },  // CH2
-    { "PB_0",  GPIOB, GPIO_PIN_0,  TIM3 },  // CH3
-    { "PB_1",  GPIOB, GPIO_PIN_1,  TIM3 }   // CH4
-};
-#else
-const PWM_Enabled_Pin pwm_enabled_pins[] = {};  // blank catchall.
-#endif
+extern PWM_Enabled_Pin pwm_enabled_pins[];
 
-// Todo - complete other pin mappings based on available Pins.
-
-const PWM_Enabled_Pin* find_compatible_pwm_pin(std::string); 
+PWM_Enabled_Pin* find_compatible_pwm_pin(std::string); 
 
 class HardwarePWM
 {
 	private:
 
 		std::string pin;			        // PWM output pin
+        PWM_Enabled_Pin *configured_pin;
         TIM_HandleTypeDef pwm_tim_handler;
 
         void initialise_timers(void);

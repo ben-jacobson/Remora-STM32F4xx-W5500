@@ -1,11 +1,34 @@
 #include "HardwarePwm.h"
 
+// Pin mappings for various build targets.
+
+#ifdef NUCLEO_F446
+PWM_Enabled_Pin pwm_enabled_pins[] = {
+    { "PA_8",  GPIOA, GPIO_PIN_8,  TIM1 },  // CH1
+    { "PA_9",  GPIOA, GPIO_PIN_9,  TIM1 },  // CH2
+    { "PA_10", GPIOA, GPIO_PIN_10, TIM1 },  // CH3
+    { "PA_11", GPIOA, GPIO_PIN_11, TIM1 },  // CH4
+    { "PA_0",  GPIOA, GPIO_PIN_0,  TIM2 },  // CH1
+    { "PA_1",  GPIOA, GPIO_PIN_1,  TIM2 },  // CH2
+    { "PB_10", GPIOB, GPIO_PIN_10, TIM2 },  // CH3
+    { "PB_2",  GPIOB, GPIO_PIN_2,  TIM2 },  // CH4
+    { "PC_6",  GPIOC, GPIO_PIN_6,  TIM3 },  // CH1
+    { "PC_7",  GPIOC, GPIO_PIN_7,  TIM3 },  // CH2
+    { "PB_0",  GPIOB, GPIO_PIN_0,  TIM3 },  // CH3
+    { "PB_1",  GPIOB, GPIO_PIN_1,  TIM3 }   // CH4
+};
+#else
+PWM_Enabled_Pin pwm_enabled_pins[] = {};  // blank catchall.
+#endif
+
+// Todo - complete other pin mappings based on available Pins.
+
 TIM_ClockConfigTypeDef sClockSourceConfig = {0};
 TIM_MasterConfigTypeDef sMasterConfig = {0};
 TIM_OC_InitTypeDef sConfigOC = {0};
 TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
-const PWM_Enabled_Pin* find_compatible_pwm_pin(std::string pin)
+PWM_Enabled_Pin* find_compatible_pwm_pin(std::string pin)
 {
     uint8_t pwm_enabled_pins_count = sizeof(pwm_enabled_pins) / sizeof(pwm_enabled_pins[0]); 
 
@@ -27,9 +50,9 @@ const PWM_Enabled_Pin* find_compatible_pwm_pin(std::string pin)
 HardwarePWM::HardwarePWM(int initial_period_us, int initial_pulsewidth_us, std::string pin) :
 	pin(pin)
 {
-    const PWM_Enabled_Pin *configured_pin = find_compatible_pwm_pin(pin); 
-
-    if (configured_pin != nullptr) {
+    this->configured_pin = find_compatible_pwm_pin(pin); 
+    
+    if (this->configured_pin != nullptr) {
         printf("Creating Hardware PWM at pin %s\n", this->pin.c_str());
     }
 
@@ -45,10 +68,25 @@ HardwarePWM::HardwarePWM(int initial_period_us, int initial_pulsewidth_us, std::
 
 void HardwarePWM::initialise_timers(void) 
 {
-    this->pwm_tim_handler.Instance = TIM1;
-    this->pwm_tim_handler.Init.Prescaler = 0;
+    if (this->configured_pin->timer != NULL)
+    {
+        this->pwm_tim_handler.Instance = this->configured_pin->timer;
+    }
+    else 
+    {
+        printf("Error referencing PWM pin timer channel");
+    }
+
+    if (this->pwm_tim_handler.Instance == TIM1 || this->pwm_tim_handler.Instance == TIM8) {
+        this->pwm_tim_handler.Init.Prescaler = (HAL_RCC_GetPCLK2Freq() / 1000000) * 2;    // todo - go back and check how the actual clock was set up and create new values based on that.
+    }
+    else
+    {
+        this->pwm_tim_handler.Init.Prescaler = (HAL_RCC_GetPCLK1Freq() / 1000000) * 2;    
+    }
+    
     this->pwm_tim_handler.Init.CounterMode = TIM_COUNTERMODE_UP;
-    this->pwm_tim_handler.Init.Period = 65535;  // sets up with a default value for time being, will manaually set later
+    this->pwm_tim_handler.Init.Period = 1000 - 1;   // test for 1000hz for now
     this->pwm_tim_handler.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
     this->pwm_tim_handler.Init.RepetitionCounter = 0;
     this->pwm_tim_handler.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -81,7 +119,7 @@ void HardwarePWM::initialise_timers(void)
 void HardwarePWM::initialise_pwm_channels(void) 
 {
     sConfigOC.OCMode = TIM_OCMODE_PWM1;
-    sConfigOC.Pulse = 0;
+    sConfigOC.Pulse = 500;  // test 50% duty cycle for now.
     sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
     sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
     sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -122,22 +160,24 @@ void HardwarePWM::initialise_pwm_channels(void)
 void HardwarePWM::initialise_pwm_pins(void) 
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    if(this->pwm_tim_handler.Instance==TIM1)
+    if(this->pwm_tim_handler.Instance == TIM1)
     {
         __HAL_RCC_GPIOA_CLK_ENABLE();
-        /**TIM1 GPIO Configuration
-        PA8     ------> TIM1_CH1
-        PA9     ------> TIM1_CH2
-        PA10     ------> TIM1_CH3
-        PA11     ------> TIM1_CH4
-        */
-        GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11;
+//        GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11; // will this still work if we initialise individual pins on the same channel? Will this break 9,10 and 11 if configd as digital pins? 
+        GPIO_InitStruct.Pin = GPIO_PIN_8; 
         GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
         GPIO_InitStruct.Pull = GPIO_NOPULL;
         GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
         GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
         HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
     }
+
+    __HAL_RCC_TIM1_CLK_ENABLE();    
+
+    if (HAL_TIM_PWM_Start(&this->pwm_tim_handler, TIM_CHANNEL_1) != HAL_OK) // start the PWM
+    {
+        Error_Handler();
+    }    
 }
 
 HardwarePWM::~HardwarePWM(void) 

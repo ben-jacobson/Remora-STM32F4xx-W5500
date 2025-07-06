@@ -34,9 +34,9 @@ Software PWM is still WIP, please use Hardware PWM for the time being.
 Hardware PWM is available on wide variety of pins depending on your hardware target. Please see the tables below and select the appropriate pin. Specific STM32 Timers and Channels have been allocated by the module but there are limitations to note: 
 - Any two PWM pins on the same timer (TIMx) will share the same frequency, this frequency will be revert to the last pin you defined in your config.txt
 - If you don't specify the frequency in your config.txt, the default is TODO
-- The number of PWM pins avaialble is limited by your hardware target, with the largest being 12 PWM pins. 
+- The number of PWM pins avaialble is limited by your hardware target, but also a maximum of 12 PWM pins. 
 - All PWM pins will have their own dedicated and adjustable duty cycle/period. All PWM is variable duty cycle enabling you to create fixed or variable depending on how you configure your HAL.  
-- All PWM timers use a 16 bit wide ARR, allowing for enough fine control for things like spindle speed controls.
+- All PWM timers are 16 bits wide, allowing for enough fine control for things like spindle speed controls.
 
 TODO - documentation seems to indicate max 8 PWM and this is shared with RCServo? Go back and read the docs. https://remora-docs.readthedocs.io/en/latest/configuration/Setup-Config-File.html#pwm
 
@@ -58,7 +58,7 @@ TODO - documentation seems to indicate max 8 PWM and this is shared with RCServo
 
 # Boards
 - Nucleo F446RE : Working
-- Nucleo F446ZE : Soon to be implemented, will soon become the main supported board
+- Nucleo F446ZE : Soon to be implemented, and will become the main supported board
 
 ------------------------------------------
 
