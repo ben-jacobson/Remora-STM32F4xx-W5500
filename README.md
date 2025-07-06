@@ -8,6 +8,10 @@ Ported from Expatria Technologies fork of Remora, specifically the version maint
 - Software PWM yet to be ported.
 - MPG module yet to be ported.
 
+# Todos
+- Switch out tests to use whatever UART and other tested peripherals to what is defined in platformIO.ini
+- Set up ability to configure UART peripheral in platformio.ini, just like we have with SPI and CS/RST pins
+
 # W5500 connection
 - PA_5: SCK
 - PA_6: MISO

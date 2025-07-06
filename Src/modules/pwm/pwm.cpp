@@ -6,7 +6,6 @@
                 MODULE CONFIGURATION AND CREATION FROM JSON     
 ************************************************************************/
 
-#ifndef NATIVE_UNITTEST
 void createPWM(void)
 {
     const char* comment = module["Comment"];
@@ -41,8 +40,6 @@ void createPWM(void)
         printf("Software PWM not yet supported\n");
     }
 }
-#endif
-
 
 /***********************************************************************
                 METHOD DEFINITIONS
@@ -55,13 +52,14 @@ PWM::PWM(volatile float &ptrPwmPeriod, volatile float &ptrPwmPulseWidth, std::st
 {
     printf("Creating variable frequency Hardware PWM at pin %s\n", this->pin.c_str());
 
-    if (pwmPeriod_us == 0)
+    // set initial period and pulse width
+    this->pwmPeriod_us = *(this->ptrPwmPeriod);
+
+    if (*(this->ptrPwmPeriod) == 0)
     {
         this->pwmPeriod_us = DEFAULT_PWM_PERIOD;
     }
 
-    // set initial period and pulse width
-    this->pwmPeriod_us = *(this->ptrPwmPeriod);
     this->pwmPulseWidth = *(this->ptrPwmPulseWidth);
     this->pwmPulseWidth_us = (this->pwmPeriod_us * this->pwmPulseWidth) / 100.0;
     hardware_PWM = new HardwarePWM(this->pwmPeriod_us, this->pwmPulseWidth_us, this->pin); 

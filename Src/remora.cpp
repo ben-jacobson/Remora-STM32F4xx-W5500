@@ -628,7 +628,7 @@ static txData_t* getAltTxBuffer(TxPingPongBuffer* buffer) {
     return &buffer->txBuffers[1 - buffer->currentTxBuffer];
 }
 
-
+#ifndef UNIT_TEST   // Avoid multiple defintions of main when running unit tests. Annoying that Unity doesn't just do this natively...
 int main()
 {
     main_init();
@@ -688,6 +688,7 @@ int main()
         }
     }
 }
+#endif
 
 void EthernetInit()
 {

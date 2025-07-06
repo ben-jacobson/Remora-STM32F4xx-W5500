@@ -247,11 +247,15 @@
         },
         {
             "Thread": "Servo",
-            "Type": "Digital Pin",
-            "Comment": "Output 7",
-            "Pin": "PC_4",
-            "Mode": "Output",         
-            "Data Bit": 7
+            "Type": "PWM",
+            "Comment":                      "PWM0",
+            "SP[i]":                        0,
+            "PWM Pin":                      "PC_4",
+            "PWM Max":                      256,
+            "Hardware PWM":                 "True",
+            "Variable Freq":                "True",
+            "Period SP[i]":                 1,
+            "Period us":                    200
         }
     ]
 }
