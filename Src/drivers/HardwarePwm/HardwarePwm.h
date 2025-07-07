@@ -14,6 +14,7 @@ struct PWM_Enabled_Pin {
     GPIO_TypeDef* gpio_port;
     uint16_t gpio_pin;
     TIM_TypeDef* timer;
+    uint32_t channel; 
 };
 
 extern PWM_Enabled_Pin pwm_enabled_pins[];

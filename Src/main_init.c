@@ -64,7 +64,7 @@ int main_init(void)
 
     HAL_RCC_GetClockConfig(&clock_cfg, &latency);
 
-    __HAL_RCC_TIM1_CLK_ENABLE();
+    __HAL_RCC_TIM1_CLK_ENABLE();    // unsure if these are ever used. TIM1-TIM4 are being used by the PWM generator, cannot find any other code referencing these timers. 
     __HAL_RCC_TIM2_CLK_ENABLE();
     __HAL_RCC_TIM3_CLK_ENABLE();
     __HAL_RCC_TIM4_CLK_ENABLE();
