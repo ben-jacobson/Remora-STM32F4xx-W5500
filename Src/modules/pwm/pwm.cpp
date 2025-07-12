@@ -18,9 +18,9 @@ void createPWM(void)
     //const char* variable = module["Variable Freq"]; // by default all PWMs are variable.
     int period_sp = module["Period SP[i]"];
     int period_us = module["Period us"];
-    const char* comment = module["Comment"];
+    //const char* comment = module["Comment"];
 
-    printf("\n%s\n",comment);
+    //printf("\n%s\n",comment);
     printf("Creating PWM at pin %s\n", pin);
    
     // Create pointers for set point variables
@@ -58,7 +58,7 @@ PWM::PWM(volatile float &ptrPwmPeriod, volatile float &ptrPwmPulseWidth, int pwm
     }
 
     this->pwmPulseWidth = *(this->ptrPwmPulseWidth);
-    this->pwmPulseWidth_us = *(this->ptrPwmPulseWidth); // for testing for now, need to calculate percentage later
+    this->pwmPulseWidth_us = (this->pwmPeriod_us * this->pwmPulseWidth) / 100.0;
 
     //this->pwmPulseWidth_us = (this->pwmPeriod_us * this->pwmPulseWidth) / 100.0;
     hardware_PWM = new HardwarePWM(this->pwmPeriod_us, this->pwmPulseWidth_us, this->pin); 
@@ -88,7 +88,19 @@ void PWM::update()
     if (*(this->ptrPwmPulseWidth) != this->pwmPulseWidth)
     {
         // PWM duty has changed
+
         this->pwmPulseWidth = *(this->ptrPwmPulseWidth);
+
+        // clamp the percentage
+        if (this->pwmPulseWidth < 0) 
+        {
+            this->pwmPulseWidth = 0;
+        }
+        if (this->pwmPulseWidth > 100) 
+        {
+            this->pwmPulseWidth = 100;
+        }
+
         this->pwmPulseWidth_us = (this->pwmPeriod_us * this->pwmPulseWidth) / 100.0;
         this->hardware_PWM->change_pulsewidth(this->pwmPulseWidth_us);
     } 

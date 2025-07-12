@@ -73,16 +73,14 @@ HardwarePWM::HardwarePWM(int initial_period_us, int initial_pulsewidth_us, std::
 {
     this->configured_pin = find_compatible_pwm_pin(pin); 
     
-    if (this->configured_pin != nullptr) {
-        printf("Creating Hardware PWM at pin %s\n", this->pin.c_str());
+    if (this->configured_pin == nullptr) {
+        printf("Error in creating hardware PWM on pin: %s\n", this->pin.c_str());
     }
 
     // Initialise the timer, channel and pin.
     this->initialise_timers();
     this->initialise_pwm_channels();    
     this->initialise_pwm_pins();
-
-    // set the initial period and pulsewidth
     this->change_period(initial_period_us);
     this->change_pulsewidth(initial_pulsewidth_us);
 
@@ -107,7 +105,7 @@ void HardwarePWM::initialise_timers(void)
     this->pwm_tim_handler.Init.Period = 0; // start with 0us period, we'll initialise right after 
     this->pwm_tim_handler.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
     this->pwm_tim_handler.Init.RepetitionCounter = 0;
-    this->pwm_tim_handler.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+    this->pwm_tim_handler.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
     
     if (HAL_TIM_Base_Init(&this->pwm_tim_handler) != HAL_OK)
     {
@@ -298,13 +296,15 @@ void HardwarePWM::change_period(int new_period_us)
     __HAL_TIM_DISABLE(&this->pwm_tim_handler);
     __HAL_TIM_SET_AUTORELOAD(&this->pwm_tim_handler, period_ticks - 1);
 
-    // Ensure pulse width is not out of bounds of new period value
+    // Ensure pulse width is not out of bounds of new period value, otherwise the counter will never reach it. 
     if (__HAL_TIM_GET_COMPARE(&this->pwm_tim_handler, this->configured_pin->channel) > (period_ticks - 1)) {
         __HAL_TIM_SET_COMPARE(&this->pwm_tim_handler, this->configured_pin->channel, period_ticks - 1);
     }
 
+    this->pwm_tim_handler.Instance->EGR |= TIM_EGR_UG;  // trigger an update event. Possibly not needed, the timer should reset at the end of ARR count.. 
+
     // re-enable
-    __HAL_TIM_ENABLE(&this->pwm_tim_handler);   
+    __HAL_TIM_ENABLE(&this->pwm_tim_handler); 
 }
 
 void HardwarePWM::change_pulsewidth(int new_pulsewidth_us)

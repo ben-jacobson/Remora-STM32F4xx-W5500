@@ -76,7 +76,7 @@ loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EM
 	#net OUT1 	remora.output.01 	#=> 
 	#net OUT2 	remora.output.02 	#=> 
 	
-#spindle DAC 0-10 control
+#spindle DAC 0-10V control
 	loadrt abs count=4
 	addf abs.0 servo-thread
 
@@ -93,12 +93,12 @@ loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EM
 	net spindle-dac-period-us abs.1.in
 	net spindle-dac-period abs.1.out => remora.SP.1	
 	
-# test variable PWM period for second PWM
-	addf abs.2 servo-thread
-	net test-second-pwm-period-us abs.2.in
-	net test-second-pwm-period abs.2.out => remora.SP.2
-	
 # test variable duty cycle for second PWM
+	addf abs.2 servo-thread
+	net test-second-pwm-duty-percent abs.2.in
+	net test-second-pwm-duty abs.2.out => remora.SP.2
+	
+# test variable period for second PWM
 	addf abs.3 servo-thread
-	net test-second-pwm-duty-us abs.3.in
-	net test-second-pwm-duty abs.3.out => remora.SP.3
+	net test-second-pwm-period-us abs.3.in
+	net test-second-pwm-period abs.3.out => remora.SP.3
