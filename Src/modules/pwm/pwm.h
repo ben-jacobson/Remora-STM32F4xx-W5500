@@ -8,7 +8,7 @@
 #include "modules/module.h"
 #include "drivers/HardwarePwm/HardwarePwm.h"
 
-#define DEFAULT_PWM_PERIOD 200
+#define DEFAULT_PWM_PERIOD 100 // 100us
 
 void createPWM(void);
 
@@ -22,7 +22,7 @@ class PWM : public Module
 		HardwarePWM *hardware_PWM;
 
         volatile float *ptrPwmPeriod; 	    // pointer to the data source
-        volatile float *ptrPwmPulseWidth; 	// pointer to the data source
+		volatile float *ptrPwmPulseWidth; 	// pointer to the data source
 
         float pwmPeriod_us;                      // Period (us)
         float pwmPulseWidth;                // Pulse width (%)

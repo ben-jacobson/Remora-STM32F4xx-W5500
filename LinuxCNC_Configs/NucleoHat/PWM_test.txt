@@ -17,12 +17,12 @@
             "Thread": "Servo",
             "Type": "PWM",
             "Comment":                      "PWM1",
-            "SP[i]":                        1,
+            "SP[i]":                        2,
             "PWM Pin":                      "PB_2",
             "PWM Max":                      256,
             "Hardware PWM":                 "True",
             "Variable Freq":                "True",
-            "Period SP[i]":                 1,
+            "Period SP[i]":                 3,
             "Period us":                    200
         }        
     ]

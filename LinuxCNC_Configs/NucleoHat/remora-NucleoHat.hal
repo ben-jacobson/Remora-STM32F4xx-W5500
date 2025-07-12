@@ -62,16 +62,43 @@ loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EM
 
 # end-stops and inputs
 
-	net X_HOME 	remora.input.00 	=> joint.0.home-sw-in 
-	net Y_HOME 	remora.input.01 	=> joint.1.home-sw-in 
-	net Z_HOME 	remora.input.02 	=> joint.2.home-sw-in 
-	net IN1 	remora.input.03 	#=> 
-	net IN2 	remora.input.04 	#=> 
-	net IN3 	remora.input.05 	#=> 
-	net USR_BTN	remora.input.06 	#=> 
+	#net X_HOME 	remora.input.00 	=> joint.0.home-sw-in 
+	#net Y_HOME 	remora.input.01 	=> joint.1.home-sw-in 
+	#net Z_HOME 	remora.input.02 	=> joint.2.home-sw-in 
+	#net IN1 	remora.input.03 	#=> 
+	#net IN2 	remora.input.04 	#=> 
+	#net IN3 	remora.input.05 	#=> 
+	#net USR_BTN	remora.input.06 	#=> 
 
 # stepgen enable and other outputs
 
 	#net j0enable => remora.output.00 	
 	#net OUT1 	remora.output.01 	#=> 
 	#net OUT2 	remora.output.02 	#=> 
+	
+#spindle DAC 0-10 control
+	loadrt abs count=4
+	addf abs.0 servo-thread
+
+	loadrt scale count=1
+	addf scale.0 servo-thread
+	
+	setp scale.0.gain 1 #this will make m3 s100 give 100% output and m3 s1 1%
+	net spindle-speed-scale spindle.0.speed-out => scale.0.in
+	net spindle-speed-abs scale.0.out => abs.0.in
+	net spindle-speed-DAC abs.0.out  => remora.SP.0
+	
+# test variable PWM period for spindle DAC
+	addf abs.1 servo-thread
+	net spindle-dac-period-us abs.1.in
+	net spindle-dac-period abs.1.out => remora.SP.1	
+	
+# test variable PWM period for second PWM
+	addf abs.2 servo-thread
+	net test-second-pwm-period-us abs.2.in
+	net test-second-pwm-period abs.2.out => remora.SP.2
+	
+# test variable duty cycle for second PWM
+	addf abs.3 servo-thread
+	net test-second-pwm-duty-us abs.3.in
+	net test-second-pwm-duty abs.3.out => remora.SP.3

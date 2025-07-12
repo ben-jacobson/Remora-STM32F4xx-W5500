@@ -68,7 +68,7 @@ uint32_t get_timer_clk_freq(TIM_TypeDef* TIMx)
     return pclk * multiplier;
 }
 
-HardwarePWM::HardwarePWM(int initial_period_us, int initial_pulsewidth_us, std::string pin) :
+HardwarePWM::HardwarePWM(int initial_period_us, int initial_pulsewidth_us, std::string pin):
 	pin(pin)
 {
     this->configured_pin = find_compatible_pwm_pin(pin); 
@@ -83,16 +83,11 @@ HardwarePWM::HardwarePWM(int initial_period_us, int initial_pulsewidth_us, std::
     this->initialise_pwm_pins();
 
     // set the initial period and pulsewidth
-    //this->change_period(initial_period_us);
-    //this->change_pulsewidth(initial_pulsewidth_us);
+    this->change_period(initial_period_us);
+    this->change_pulsewidth(initial_pulsewidth_us);
 
-    // for testing
-    this->change_period(100);
-    this->change_pulsewidth(50);    
-
-    printf("Timer clk frequency: %lu Hz\n", this->timer_clk_hz);
-    printf("Prescaler: %lu\n", this->pwm_tim_handler.Init.Prescaler);
-
+    //printf("Timer clk frequency: %lu Hz\n", this->timer_clk_hz);
+    //printf("Prescaler: %lu\n", this->pwm_tim_handler.Init.Prescaler);
 }
 
 void HardwarePWM::initialise_timers(void) 

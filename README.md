@@ -1,7 +1,7 @@
 # Remora NucleoF446RE w/ W5500 Ethernet interface fork. 
 ------------------------------------------
 
-Ported from Expatria Technologies fork of Remora, specifically the version maintained by cakeslob. 
+Ported from Expatria Technologies fork of Remora, specifically the version maintained by cakeslob. Remora was originally written by Scotta
 
 # Status
 - Stepgen, blink and digital IO are tested and working. 
@@ -9,8 +9,12 @@ Ported from Expatria Technologies fork of Remora, specifically the version maint
 - MPG module yet to be ported.
 
 # Todos
-- Switch out tests to use whatever UART and other tested peripherals to what is defined in platformIO.ini
+- Switch out unit tests to use whatever UART and other tested peripherals to what is defined in platformIO.ini
 - Set up ability to configure UART peripheral in platformio.ini, just like we have with SPI and CS/RST pins
+- PWM: Set up the max PWM value
+- PWM: Test if using the same TIM/Channel, does the last frequency on the shared PWM set correctly as per docs below?
+- PWM: Test if this work if we use the fixed period only? In which case the variable boolean should be used to lock down to fixed period to save on set point variables.  
+- PWM: Fix bug with secondary PWM period and duty cycle not updating properly
 
 # W5500 connection
 - PA_5: SCK
@@ -31,14 +35,12 @@ Example config.txt files can be found in the LinuxCNC_Configs folder.
 Software PWM is still WIP, please use Hardware PWM for the time being. 
 
 # Hardware PWM
-Hardware PWM is available on wide variety of pins depending on your hardware target. Please see the tables below and select the appropriate pin. Specific STM32 Timers and Channels have been allocated by the module but there are limitations to note: 
-- Any two PWM pins on the same timer (TIMx) will share the same frequency, this frequency will be revert to the last pin you defined in your config.txt
-- If you don't specify the frequency in your config.txt, the default is TODO
-- The number of PWM pins avaialble is limited by your hardware target, but also a maximum of 12 PWM pins. 
+Hardware PWM is available on wide variety of pins depending on your hardware target. Please see the tables below, when setting up your config.txt file, you may choose from the list below. Specific STM32 Timers and Channels have been allocated by the module but there are limitations to note: 
+- Any two PWM pins on the same timer (TIMx) will share the same frequency, this frequency should revert to the last pin you defined in your config.txt
+- If you don't specify the period in your config.txt, the default is 200
+- The number of PWM pins available will be limited by your remora-eth-3.0 component, which by default is 4. You can lift this limit by changing both remora-eth-3.h file and configuration.h file, make sure these match. You will need 2 variables for each PWM, first for the duty cycle and another for the variable period should you wish to use that. 
 - All PWM pins will have their own dedicated and adjustable duty cycle/period. All PWM is variable duty cycle enabling you to create fixed or variable depending on how you configure your HAL.  
-- All PWM timers are 16 bits wide, allowing for enough fine control for things like spindle speed controls.
-
-TODO - documentation seems to indicate max 8 PWM and this is shared with RCServo? Go back and read the docs. https://remora-docs.readthedocs.io/en/latest/configuration/Setup-Config-File.html#pwm
+- All PWM timers are either 16 or 32 bits wide depending on which TIMx is used, this is more than enough for very fine control over PWM.
 
 **Nucleo F446RE:**
 | GPIO | Timer | Channel |
@@ -65,7 +67,7 @@ TODO - documentation seems to indicate max 8 PWM and this is shared with RCServo
 # Installation instructions
 Start by building the firmware from source, or use the built in STLink to upload the firmware from the build directory to your Nucleo Board.
 
-This firmware uses an almost unchanged version of the Remora-eth-0.3.0 ethernet component avaialable on the NVEM Remora port found here: https://github.com/scottalford75/Remora-RT1052-cpp/tree/main/LinuxCNC/components/Remora-eth
+This firmware uses the Remora-eth-0.3.0 ethernet component avaialable on the NVEM Remora port found here: https://github.com/scottalford75/Remora-RT1052-cpp/tree/main/LinuxCNC/components/Remora-eth
 
 From your linuxcnc home folder, copy over the LinuxCNC_Configs/NucleoHat into your own config folder. Then move to the Remora-eth component folder.
 
@@ -85,4 +87,4 @@ https://remora-docs.readthedocs.io/en/latest/firmware/ethernet-config.html
 
 Board will not start until ethernet connection is established. 
 
-All credit to Scotta, Expatria Technologies, Cakeslob and Terje IO. I didn't write this project, simply ported it and customised it to the needs of the Nucleo Hat
+All credit to Scotta, Expatria Technologies, Cakeslob and Terje IO. I didn't write this project, simply ported it and customised it to the needs of the Nucleo Hat hardware
