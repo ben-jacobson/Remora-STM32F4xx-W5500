@@ -16,7 +16,7 @@ class PWM : public Module
 {
 	private:
 		std::string pin;			        // PWM output pin
-		//int pwmMax;					        // maximum PWM output
+		int pwmMax;					        // maximum PWM output
 		//int pwmSP;					        // PWM setpoint as a percentage of maxPwm
 
 		HardwarePWM *hardware_PWM;
@@ -29,11 +29,12 @@ class PWM : public Module
         int pwmPulseWidth_us;               // Pulse width (us)
 
 	public:
-		PWM(volatile float&, volatile float&, std::string);
+		PWM(volatile float&, volatile float&, int, std::string);
 
 		virtual void update(void);          // Module default interface
 		virtual void slowUpdate(void);      // Module default interface
 
+		void setPwmMax(int);
 		float getPwmPeriod(void);			// getters, primarily for testing
 		float getPwmPulseWidth(void);
 		int getPwmPulseWidth_us(void);

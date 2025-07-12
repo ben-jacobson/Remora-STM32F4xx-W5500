@@ -33,7 +33,7 @@ PWM_Enabled_Pin* find_compatible_pwm_pin(std::string pin)
     uint8_t pwm_enabled_pins_count = sizeof(pwm_enabled_pins) / sizeof(pwm_enabled_pins[0]); 
 
     if (pwm_enabled_pins_count == 0) {
-        printf("pwm_enabled_pins is empty, did you set the correct build target in your env?\n");
+        printf("pwm_enabled_pins is empty, have you set the correct build target in your env?\n");
         return nullptr;
     }
 
@@ -45,6 +45,27 @@ PWM_Enabled_Pin* find_compatible_pwm_pin(std::string pin)
 
     printf("Pin %s is not PWM enabled. Please set your config.txt to use the correct PWM enabled pin\n", pin.c_str());
     return nullptr; 
+}
+
+uint32_t get_timer_clk_freq(TIM_TypeDef* TIMx)
+{
+    uint32_t pclk, multiplier;
+
+    if (TIMx == TIM1 || TIMx == TIM8 || TIMx == TIM9 || TIMx == TIM10 || TIMx == TIM11) 
+    {       
+        // On APB2
+        pclk = HAL_RCC_GetPCLK2Freq();
+        uint32_t ppre2 = ((RCC->CFGR & RCC_CFGR_PPRE2) >> RCC_CFGR_PPRE2_Pos);
+        multiplier = (ppre2 < 4) ? 1 : 2;
+    }
+    else    
+    {
+        // On APB1
+        pclk = HAL_RCC_GetPCLK1Freq();
+        uint32_t ppre1 = ((RCC->CFGR & RCC_CFGR_PPRE1) >> RCC_CFGR_PPRE1_Pos);
+        multiplier = (ppre1 < 4) ? 1 : 2;       
+    }
+    return pclk * multiplier;
 }
 
 HardwarePWM::HardwarePWM(int initial_period_us, int initial_pulsewidth_us, std::string pin) :
@@ -62,55 +83,33 @@ HardwarePWM::HardwarePWM(int initial_period_us, int initial_pulsewidth_us, std::
     this->initialise_pwm_pins();
 
     // set the initial period and pulsewidth
-    this->change_period(initial_period_us);
-    this->change_pulsewidth(initial_pulsewidth_us);
+    //this->change_period(initial_period_us);
+    //this->change_pulsewidth(initial_pulsewidth_us);
+
+    // for testing
+    this->change_period(100);
+    this->change_pulsewidth(50);    
+
+    printf("Timer clk frequency: %lu Hz\n", this->timer_clk_hz);
+    printf("Prescaler: %lu\n", this->pwm_tim_handler.Init.Prescaler);
+
 }
 
 void HardwarePWM::initialise_timers(void) 
 {
-    uint32_t timer_clock;
-    uint32_t base_freq = 1000000;       // according  to the code examples referenced this was for best resolution, but admittedly I'm struggling to get context on this. 
-    uint32_t target_freq_hz = 1000;     // 1000hz for testing right now. to be piped in
-
     if (this->configured_pin->timer != NULL)
     {
-        this->pwm_tim_handler.Instance = this->configured_pin->timer;
+        this->pwm_tim_handler.Instance = this->configured_pin->timer; // this variable doesn't get used again, but at least good for error checking, and if we ever rely on it later. 
     }
     else 
     {
         printf("Error in PWM Timer channel selection. Please refer to documentation.\n");
     }
 
-    if (this->pwm_tim_handler.Instance == TIM1 || 
-        this->pwm_tim_handler.Instance == TIM8 || 
-        this->pwm_tim_handler.Instance == TIM9 || 
-        this->pwm_tim_handler.Instance == TIM10 || 
-        this->pwm_tim_handler.Instance == TIM11)  // PWM won't work on anything above TIM4, for sake of completion
-    {
-        if ((RCC->CFGR & RCC_CFGR_PPRE2) != RCC_CFGR_PPRE2_DIV1)    // I will not remember how any of this timer code works after I move onto the next thing....
-        {
-            timer_clock = HAL_RCC_GetPCLK2Freq() * 2;
-        } 
-        else 
-        {
-            timer_clock = HAL_RCC_GetPCLK2Freq();
-        }        
-    }
-    else    
-    {
-        if ((RCC->CFGR & RCC_CFGR_PPRE1) != RCC_CFGR_PPRE1_DIV1) 
-        {
-            timer_clock = HAL_RCC_GetPCLK1Freq() * 2;
-        } 
-        else 
-        {
-            timer_clock = HAL_RCC_GetPCLK1Freq();
-        }  
-    }
-
-    this->pwm_tim_handler.Init.Prescaler = (timer_clock / base_freq) - 1;
+    this->timer_clk_hz = get_timer_clk_freq(this->configured_pin->timer); 
+    this->pwm_tim_handler.Init.Prescaler = (this->timer_clk_hz / 1000000) - 1;
     this->pwm_tim_handler.Init.CounterMode = TIM_COUNTERMODE_UP;
-    this->pwm_tim_handler.Init.Period = (base_freq / target_freq_hz) - 1; 
+    this->pwm_tim_handler.Init.Period = 0; // start with 0us period, we'll initialise right after 
     this->pwm_tim_handler.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
     this->pwm_tim_handler.Init.RepetitionCounter = 0;
     this->pwm_tim_handler.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -143,7 +142,7 @@ void HardwarePWM::initialise_timers(void)
 void HardwarePWM::initialise_pwm_channels(void) 
 {
     sConfigOC.OCMode = TIM_OCMODE_PWM1; // compare mode, output is active high. Probably doesn't make much difference. 
-    sConfigOC.Pulse = this->pwm_tim_handler.Init.Period / 2;  // Defaults to 50% duty cycle as it's starting value.
+    sConfigOC.Pulse = this->pwm_tim_handler.Init.Period * 0.5;  // defaults to zero on init. TODO CHANGE BACK TO ZERO 
     sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
     sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
     sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -173,10 +172,10 @@ void HardwarePWM::initialise_pwm_pins(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-    if(this->pwm_tim_handler.Instance == TIM1 ||
-       this->pwm_tim_handler.Instance == TIM2 || 
-       this->pwm_tim_handler.Instance == TIM3 || 
-       this->pwm_tim_handler.Instance == TIM4)
+    if(this->configured_pin->timer == TIM1 ||
+       this->configured_pin->timer == TIM2 || 
+       this->configured_pin->timer == TIM3 || 
+       this->configured_pin->timer == TIM4)
     {
         if (this->configured_pin->gpio_port == GPIOA)  // aint no DRY way to do this I'm afraid.. Hope that STM32 doesn't go beyond PortG!
         {
@@ -270,19 +269,19 @@ void HardwarePWM::initialise_pwm_pins(void)
 
 HardwarePWM::~HardwarePWM(void) 
 {
-    if(this->pwm_tim_handler.Instance == TIM1)
+    if(this->configured_pin->timer == TIM1)
     {
         __HAL_RCC_TIM1_CLK_DISABLE();
     }
-    if(this->pwm_tim_handler.Instance == TIM2)
+    if(this->configured_pin->timer == TIM2)
     {
         __HAL_RCC_TIM2_CLK_DISABLE();
     }    
-    if(this->pwm_tim_handler.Instance == TIM3)
+    if(this->configured_pin->timer == TIM3)
     {
         __HAL_RCC_TIM3_CLK_DISABLE();
     }        
-    if(this->pwm_tim_handler.Instance == TIM4)
+    if(this->configured_pin->timer == TIM4)
     {
         __HAL_RCC_TIM4_CLK_DISABLE();
     }           
@@ -290,10 +289,43 @@ HardwarePWM::~HardwarePWM(void)
 
 void HardwarePWM::change_period(int new_period_us)
 {
+    uint32_t timer_freq_after_prescaler = this->timer_clk_hz / (this->pwm_tim_handler.Init.Prescaler + 1);
+    uint32_t period_ticks = (timer_freq_after_prescaler * new_period_us) / 1000000;
 
+    if (period_ticks < 1) 
+    {
+        period_ticks = 1;
+    }
+
+    this->pwm_tim_handler.Init.Period = period_ticks - 1;
+
+    // attempt to restart PWM with minimal interruption, inclduing recalculation of pulse width
+    __HAL_TIM_DISABLE(&this->pwm_tim_handler);
+    __HAL_TIM_SET_AUTORELOAD(&this->pwm_tim_handler, period_ticks - 1);
+
+    // Ensure pulse width is not out of bounds of new period value
+    if (__HAL_TIM_GET_COMPARE(&this->pwm_tim_handler, this->configured_pin->channel) > (period_ticks - 1)) {
+        __HAL_TIM_SET_COMPARE(&this->pwm_tim_handler, this->configured_pin->channel, period_ticks - 1);
+    }
+
+    // re-enable
+    __HAL_TIM_ENABLE(&this->pwm_tim_handler);   
 }
 
 void HardwarePWM::change_pulsewidth(int new_pulsewidth_us)
 {
+    uint32_t timer_freq_after_prescaler = this->timer_clk_hz / (this->pwm_tim_handler.Init.Prescaler + 1);
+    uint32_t pulse_ticks = (timer_freq_after_prescaler * new_pulsewidth_us) / 1000000;    
 
+    // clamp it
+    if (pulse_ticks < 1) 
+    {
+        pulse_ticks = 0;
+    }
+    if (pulse_ticks > this->pwm_tim_handler.Init.Period)    
+    {
+        pulse_ticks = this->pwm_tim_handler.Init.Period;
+    }
+
+    __HAL_TIM_SET_COMPARE(&this->pwm_tim_handler, this->configured_pin->channel, pulse_ticks);
 }

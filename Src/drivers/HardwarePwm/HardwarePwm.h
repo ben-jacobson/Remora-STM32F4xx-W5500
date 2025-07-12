@@ -6,6 +6,7 @@
 #include "main_init.h"
 
 #define DEFAULT_PWMPERIOD 200
+#define ONE_MHZ 1000000 
 
 /* Pin, timer and channel definitions - see documentation for tables*/
 
@@ -24,10 +25,10 @@ PWM_Enabled_Pin* find_compatible_pwm_pin(std::string);
 class HardwarePWM
 {
 	private:
-
 		std::string pin;			        // PWM output pin
         PWM_Enabled_Pin *configured_pin;
         TIM_HandleTypeDef pwm_tim_handler;
+        uint32_t timer_clk_hz;
 
         void initialise_timers(void);
         void initialise_pwm_channels(void);
