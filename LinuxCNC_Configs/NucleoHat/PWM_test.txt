@@ -10,8 +10,7 @@
             "PWM Max":                      256,
             "Hardware PWM":                 "True",
             "Variable Freq":                "True",
-            "Period SP[i]":                 1,
-            "Period us":                    200
+            "Period SP[i]":                 1
         },
         {
             "Thread": "Servo",
@@ -21,9 +20,8 @@
             "PWM Pin":                      "PB_2",
             "PWM Max":                      256,
             "Hardware PWM":                 "True",
-            "Variable Freq":                "True",
-            "Period SP[i]":                 3,
-            "Period us":                    200
+            "Variable Freq":                "False",
+            "Period us":                    800
         }        
     ]
 }

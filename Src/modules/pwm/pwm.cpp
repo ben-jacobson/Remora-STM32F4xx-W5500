@@ -15,7 +15,7 @@ void createPWM(void)
     int pwmMax = module["PWM Max"];
     const char* pin = module["PWM Pin"];
     const char* hardware = module["Hardware PWM"];
-    //const char* variable = module["Variable Freq"]; // by default all PWMs are variable.
+    const char* variable = module["Variable Freq"]; // by default all PWMs are variable.
     int period_sp = module["Period SP[i]"];
     int period_us = module["Period us"];
     //const char* comment = module["Comment"];
@@ -32,7 +32,10 @@ void createPWM(void)
         printf("Software PWM not yet supported\n");
     }
 
-    new_pwm = new PWM(*variable_pointers[period_sp], *variable_pointers[sp], period_us, pin);   
+    bool variable_freq = !strcmp(variable, "True");
+    printf("PWM variable_freq = %d\n", variable_freq);
+
+    new_pwm = new PWM(*variable_pointers[period_sp], *variable_pointers[sp], variable_freq, period_us, pin);   
     new_pwm->setPwmMax(pwmMax);
     servoThread->registerModule(new_pwm);
 }
@@ -41,18 +44,25 @@ void createPWM(void)
                 METHOD DEFINITIONS
 ************************************************************************/
 
-PWM::PWM(volatile float &ptrPwmPeriod, volatile float &ptrPwmPulseWidth, int pwmPeriod, std::string pin) :
+PWM::PWM(volatile float &ptrPwmPeriod, volatile float &ptrPwmPulseWidth, bool variable_freq, int fixed_period_us, std::string pin):
     ptrPwmPeriod(&ptrPwmPeriod),
+    variable_freq(variable_freq),
     ptrPwmPulseWidth(&ptrPwmPulseWidth),
     pin(pin)
 {
     printf("Creating variable frequency Hardware PWM at pin %s\n", this->pin.c_str());
 
     // set initial period and pulse width
-    this->pwmPeriod_us = *(this->ptrPwmPeriod);
-    //this->pwmPeriod_us = pwmPeriod;
+    if (this->variable_freq == true)
+    {
+        this->pwmPeriod_us = *(this->ptrPwmPeriod);
+    }
+    else 
+    {
+        this->pwmPeriod_us = fixed_period_us;
+    }
 
-    if (this->pwmPeriod_us == 0)
+    if (this->pwmPeriod_us < 1)
     {
         this->pwmPeriod_us = DEFAULT_PWM_PERIOD;
     }
@@ -60,7 +70,6 @@ PWM::PWM(volatile float &ptrPwmPeriod, volatile float &ptrPwmPulseWidth, int pwm
     this->pwmPulseWidth = *(this->ptrPwmPulseWidth);
     this->pwmPulseWidth_us = (this->pwmPeriod_us * this->pwmPulseWidth) / 100.0;
 
-    //this->pwmPulseWidth_us = (this->pwmPeriod_us * this->pwmPulseWidth) / 100.0;
     hardware_PWM = new HardwarePWM(this->pwmPeriod_us, this->pwmPulseWidth_us, this->pin); 
 }
 
@@ -72,17 +81,20 @@ void PWM::setPwmMax(int pwmMax) { this->pwmMax = pwmMax; }
 
 void PWM::update()
 {
-    if (*(this->ptrPwmPeriod) != 0 && (*(this->ptrPwmPeriod) != this->pwmPeriod_us))
-    {
-        //if (*(this->ptrPwmPeriod) < this->pwmMax)  // todo - calculate this from 0-256
-        //{
-            // PWM period has changed
-            this->pwmPeriod_us = *(this->ptrPwmPeriod);
-            this->hardware_PWM->change_period(this->pwmPeriod_us);
+    if (this->variable_freq == true) 
+    {    
+        if (*(this->ptrPwmPeriod) != 0 && (*(this->ptrPwmPeriod) != this->pwmPeriod_us))
+        {
+            //if (*(this->ptrPwmPeriod) < this->pwmMax)  // todo - calculate this from 0-256
+            //{
+                // PWM period has changed
+                this->pwmPeriod_us = *(this->ptrPwmPeriod);
+                this->hardware_PWM->change_period(this->pwmPeriod_us);
 
-            // force pulse width update by triggering the next if block.
-            this->pwmPulseWidth = 0;
-        //}
+                // force pulse width update by triggering the next if block.
+                this->pwmPulseWidth = 0;
+            //}
+        }
     }
 
     if (*(this->ptrPwmPulseWidth) != this->pwmPulseWidth)

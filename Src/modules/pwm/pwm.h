@@ -28,8 +28,10 @@ class PWM : public Module
         float pwmPulseWidth;                // Pulse width (%)
         int pwmPulseWidth_us;               // Pulse width (us)
 
+		bool variable_freq;
+
 	public:
-		PWM(volatile float&, volatile float&, int, std::string);
+		PWM(volatile float&, volatile float&, bool, int, std::string);
 
 		virtual void update(void);          // Module default interface
 		virtual void slowUpdate(void);      // Module default interface
