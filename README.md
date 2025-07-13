@@ -1,17 +1,19 @@
 # Remora NucleoF446RE w/ W5500 Ethernet interface fork. 
-------------------------------------------
 
 Ported from Expatria Technologies fork of Remora, specifically the version maintained by cakeslob. Remora was originally written by Scotta
 
 # Status
-- Stepgen, blink and digital IO are tested and working. 
-- Hardware PWM is in development, it functions but there are bugs to fix
+- Stepgen, blink, digital IO and PWM are tested and working. 
 - Software PWM yet to be ported.
-- MPG module yet to be ported.
+- Encoder modules yet to be ported.
+- Analog input support to be built from scratch
 
 # Todos
+- Set up ability to configure UART peripheral in platformio.ini, just like SPI and CS/RST pins has been configured.
+- Start investigating analog inputs
+- Review other ports code for handling MPG data. Buy one and test it. 
+- Build new start up and loader script for 446ZET. 
 - Switch out unit tests to use whatever UART and other tested peripherals to what is defined in platformIO.ini
-- Set up ability to configure UART peripheral in platformio.ini, just like we have with SPI and CS/RST pins
 
 # Wiznet W5500 connection
 - PA_5: SCK
@@ -29,7 +31,7 @@ Please refer to the Remora documentation to configure GPIO to perform various fu
 Example config.txt files can be found in the LinuxCNC_Configs folder. 
 
 # Software PWM
-Software PWM is still WIP, please use Hardware PWM for the time being. 
+Software PWM is not yet supported and may not ever be. Please use Hardware PWM for the time being, the amount of flexibility offered by the hardware may override the need for Software PWM. 
 
 # Hardware PWM
 Hardware PWM is available on a wide variety of pins depending on your hardware target. When setting up your config.txt file, you must choose a PWM enabled pin from the list below. Specific STM32 Timers and Channels will been allocated by the driver behind the scenes. Some important details about this: 
