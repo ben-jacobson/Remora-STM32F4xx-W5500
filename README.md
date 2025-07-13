@@ -12,9 +12,7 @@ Ported from Expatria Technologies fork of Remora, specifically the version maint
 # Todos
 - Switch out unit tests to use whatever UART and other tested peripherals to what is defined in platformIO.ini
 - Set up ability to configure UART peripheral in platformio.ini, just like we have with SPI and CS/RST pins
-- PWM: Set up the max PWM value
 - PWM: Test if using the same TIM/Channel, does the last frequency on the shared PWM set correctly as per docs below?
-- PWM: Test if this work if we use the fixed period only? In which case the variable boolean should be used to lock down to fixed period to save on set point variables.  
 - PWM: Another odd bug when setting period too high it defaults to 79us? Maybe an overflow?
 
 # Wiznet W5500 connection

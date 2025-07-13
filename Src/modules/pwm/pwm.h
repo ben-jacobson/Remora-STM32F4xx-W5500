@@ -9,6 +9,7 @@
 #include "drivers/HardwarePwm/HardwarePwm.h"
 
 #define DEFAULT_PWM_PERIOD 100 // 100us
+#define PWMMAX 256
 
 void createPWM(void);
 
@@ -17,7 +18,6 @@ class PWM : public Module
 	private:
 		std::string pin;			        // PWM output pin
 		int pwmMax;					        // maximum PWM output
-		//int pwmSP;					        // PWM setpoint as a percentage of maxPwm
 
 		HardwarePWM *hardware_PWM;
 
@@ -31,7 +31,7 @@ class PWM : public Module
 		bool variable_freq;
 
 	public:
-		PWM(volatile float&, volatile float&, bool, int, std::string);
+		PWM(volatile float&, volatile float&, bool, int, int, std::string);
 
 		virtual void update(void);          // Module default interface
 		virtual void slowUpdate(void);      // Module default interface

@@ -7,7 +7,6 @@
             "Comment":                      "PWM0",
             "SP[i]":                        0,
             "PWM Pin":                      "PA_10",
-            "PWM Max":                      256,
             "Hardware PWM":                 "True",
             "Variable Freq":                "True",
             "Period SP[i]":                 1
@@ -18,7 +17,7 @@
             "Comment":                      "PWM1",
             "SP[i]":                        2,
             "PWM Pin":                      "PB_2",
-            "PWM Max":                      256,
+            "PWM Max":                      192,
             "Hardware PWM":                 "True",
             "Variable Freq":                "False",
             "Period us":                    800
