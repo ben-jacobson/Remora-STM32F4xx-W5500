@@ -12,8 +12,6 @@ Ported from Expatria Technologies fork of Remora, specifically the version maint
 # Todos
 - Switch out unit tests to use whatever UART and other tested peripherals to what is defined in platformIO.ini
 - Set up ability to configure UART peripheral in platformio.ini, just like we have with SPI and CS/RST pins
-- PWM: Test if using the same TIM/Channel, does the last frequency on the shared PWM set correctly as per docs below?
-- PWM: Another odd bug when setting period too high it defaults to 79us? Maybe an overflow?
 
 # Wiznet W5500 connection
 - PA_5: SCK
@@ -34,11 +32,12 @@ Example config.txt files can be found in the LinuxCNC_Configs folder.
 Software PWM is still WIP, please use Hardware PWM for the time being. 
 
 # Hardware PWM
-Hardware PWM is available on wide variety of pins depending on your hardware target. Please see the tables below, when setting up your config.txt file, you may choose from the list below. Specific STM32 Timers and Channels will been allocated by the driver. There are some considerations to note: 
-- Any two PWM pins on the same timer (TIMx) will share the same period, and will be set by the last pin defined in config.txt
-- If you don't specify the period in your config.txt, the default is 200
-- The number of PWM pins available will be limited by your remora-eth-3.0 component, which by default is 4. You can lift this limit by changing both remora-eth-3.h file and configuration.h file, make sure these match. You will need 2 variables for each PWM, first for the duty cycle and another for the variable period should you wish to use that. 
-- All PWM pins will have their own dedicated and adjustable duty cycle/period. By default the PWM will be variable period enabling you to create fixed or variable depending on how you configure your HAL and use the set point variables in Remora.  
+Hardware PWM is available on a wide variety of pins depending on your hardware target. When setting up your config.txt file, you must choose a PWM enabled pin from the list below. Specific STM32 Timers and Channels will been allocated by the driver behind the scenes. Some important details about this: 
+- PWM pins can be set to variable or fixed period. Configuration documentation can be found here https://remora-docs.readthedocs.io/en/latest/configuration/Setup-Config-File.html#pwm
+- You may set up more than one PWM pin on the same timer (TIMx), however the period will be shared and defined by the last pin you set in your config.txt. 
+- If you don't specify a fixed period in your config.txt, or if your LinuxCNC intialises this as zero, the default will become 200us
+- By default, PWM automatically starts as soon as you press the eStop. You will need to configure LinuxCNC to stop and start on other conditions. For example when using it as a 0-10v Spindle control. HAL config can be found here: https://remora-docs.readthedocs.io/en/latest/software/hal-examples.html#pwm-to-0-10v-spindle-control-simple
+- How many PWM pins available will be limited by your remora-eth-3.0 component, which defaults to 4. You can raise this limit by changing both remora-eth-3.h file and configuration.h file, but be sure these. You will need 1 variable for each fixed period PWM pin, but 2 for variable duty PWM.
 - All PWM timers are either 16 or 32 bits wide depending on which TIMx is used. 16 bit is more than enough for very fine control over duty cycle.
 
 **Nucleo F446RE:**
